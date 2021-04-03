@@ -2,6 +2,7 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import { onMount } from "svelte";
+    import Loading from "../components/Loading.svelte";
 
     let dataset;
     onMount(async () => {
@@ -13,17 +14,17 @@
     });
 </script>
 
-<Layout>
-    <header>
-        <h1 class="text-white text-3xl font-bold">Home</h1>
-    </header>
-    <div class="grid grid-cols-2 xl:grid-cols-5 gap-5">
-        {#if dataset}
+{#if dataset}
+    <Layout>
+        <header>
+            <h1 class="text-white text-3xl font-bold">Home</h1>
+        </header>
+        <div class="grid grid-cols-2 xl:grid-cols-5 gap-5">
             {#each dataset as data}
                 <MangaItem {data} />
             {/each}
-        {:else}
-            <p>Loading...</p>
-        {/if}
-    </div>
-</Layout>
+        </div>
+    </Layout>
+{:else}
+    <Loading />
+{/if}

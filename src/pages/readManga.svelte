@@ -1,6 +1,7 @@
 <script>
     import Layout from "../components/Layout.svelte";
     import { onMount } from "svelte";
+    import Loading from "../components/Loading.svelte";
 
     export let params;
     let dataset;
@@ -21,8 +22,8 @@
     }
 </script>
 
-<Layout px="0">
-    {#if !loading}
+{#if !loading}
+    <Layout px="0">
         <h1 class="text-3xl px-3 font-bold">
             {dataset.title}
         </h1>
@@ -53,7 +54,7 @@
                 </a>
             {/if}
         </div>
-    {:else}
-        <p class="px-3">Loading...</p>
-    {/if}
-</Layout>
+    </Layout>
+{:else}
+    <Loading />
+{/if}

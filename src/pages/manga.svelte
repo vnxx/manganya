@@ -2,6 +2,7 @@
     import Layout from "../components/Layout.svelte";
     import ChapterItem from "../components/ChapterItem.svelte";
     import { onMount } from "svelte";
+    import Loading from "../components/Loading.svelte";
     export let params;
 
     let dataset;
@@ -14,9 +15,9 @@
     });
 </script>
 
-<Layout>
-    <div class="block space-y-3 xl:flex xl:space-y-0">
-        {#if dataset}
+{#if dataset}
+    <Layout>
+        <div class="block space-y-3 xl:flex xl:space-y-0">
             <img
                 src={dataset.cover}
                 alt="Solo Leveling"
@@ -34,8 +35,8 @@
                     {/each}
                 </div>
             </div>
-        {:else}
-            loading...
-        {/if}
-    </div>
-</Layout>
+        </div>
+    </Layout>
+{:else}
+    <Loading />
+{/if}
