@@ -1,6 +1,5 @@
 #Svelte
 /node_modules/
-/public/build/
 
 #app
 .env
