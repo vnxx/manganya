@@ -24,7 +24,7 @@
 <Layout px="0">
     {#if !loading}
         <h1 class="text-3xl px-3 font-bold">
-            Solo Leveling (Na Honjaman Level-up)
+            {dataset.title}
         </h1>
         <div>
             {#each dataset.data as url, i}
