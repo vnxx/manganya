@@ -1,105 +1,27 @@
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# Mangaku
+Suka baca manga? sebal dengan iklan yang muncul terus-terusan? coba buka [mangaku.bykevin.work](https://mangaku.bykevin.work/) no iklan-iklan club.
 
----
+## Hot to run it locally?
+1. `git clone https://github.com/vnxx/mangaku.git`.
+2. `cd mangaku`.
+3. `npm install`.
+4. `npm run dev` - If you want to update the UI.
+5. `php -S localhost:8000 -t public/`. Open localhost:8000 instead of localhost:5000 from svelte to get the API data, don't worry the hot reload feautre still works.
 
-# svelte app
+## How to contribute?
+Just like usual way, but before you make a pull request, make sure you have run `npm run build` to generate js and css file for production. Why? Normally build folder/file it is't included, in my case I can't run `npm run build` on my hosting provider (memory not enough). And don't forget to select dev branch as a target branch.
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+## Why do I build this?
+A couples days back, when I heard hataraku maou-sama will get next season (season 2), I rewatch the season 1, and I realise I can't wait for season 2 come up. Short story, because I can't wait for season 2 I decided to read the manga from chapter 20 until 82 and chapter 83 - 93 (english version). But it didn't answer the question why do I build this 🤪. Ok the answer is because when I read the manga I got so many ads pop up on my screen. Get it?
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+## Why do I use PHP instead of NodeJs?
+Because my current plan on my hosting provider doesn't support NodeJs app. And the main reason is PHP is more cheaper.
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+## Why do I using SvelteJs instead of ReactJs?
+I just want to try Svelte, and this is the first time I'm using svelte. 🤔 Not bad.
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+## Where I get the data?
+I got from komikcast, I'm using scarping technique to get the data 👀.
 
-
-## Get started
-
-Install the dependencies...
-
-```bash
-cd svelte-app
-npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-npm run dev
-```
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+## Do I affiliate with komikcast?
+No, I choose komikcast because it's fast and the cors didn't block me. For komikcast I recommend you to try using cors or maybe cloudflare 👌🏻. But if komikcast want to buy my code for open new business model, you know how to contact me 😉.
