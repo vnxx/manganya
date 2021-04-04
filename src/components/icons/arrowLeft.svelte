@@ -1,0 +1,13 @@
+<svg
+    class="Hn_ gUZ pBj U9O kVc"
+    height="16"
+    width="16"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    aria-label=""
+    role="img"
+    xmlns="http://www.w3.org/2000/svg"
+    ><path
+        d="M17.28 24c-.57 0-1.14-.22-1.58-.66L4.5 12 15.7.66a2.21 2.21 0 0 1 3.15 0c.87.88.87 2.3 0 3.18L10.79 12l8.06 8.16c.87.88.87 2.3 0 3.18-.44.44-1 .66-1.57.66"
+    /></svg
+>

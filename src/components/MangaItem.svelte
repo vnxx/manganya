@@ -6,7 +6,7 @@
     <div class="manga-item-cover">
         <img src={data.cover} alt={data.title} width="100%" />
     </div>
-    <div>
+    <div class="mt-3">
         <p class="text-lg truncate font-bold text-white">
             {data.title}
         </p>

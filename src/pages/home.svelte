@@ -16,10 +16,7 @@
 
 {#if dataset}
     <Layout>
-        <header>
-            <h1 class="text-white text-3xl font-bold">Home</h1>
-        </header>
-        <div class="grid grid-cols-2 xl:grid-cols-5 gap-5">
+        <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
             {#each dataset as data}
                 <MangaItem {data} />
             {/each}

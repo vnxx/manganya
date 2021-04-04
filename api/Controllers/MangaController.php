@@ -21,7 +21,6 @@ class MangaController
                 'title' => $title,
                 'cover' => $covers[1][$key] . '.jpg',
                 'slug' => $slugs[1][$key],
-                // 'url' => $urls[1][$key],
             ]);
         }
 
@@ -36,10 +35,12 @@ class MangaController
         preg_match_all('/chapter-link-item.*chapter-(.*?(?=-))/', $source, $chapters);
         preg_match('/class="komik_info-content-body-title">(.*)<\/h1/', $source, $title);
         preg_match('/class="komik_info-content-thumbnail".*\n.*src="(.*)" class="/', $source, $cover);
+        preg_match('/itemprop="articleBody">\s*([^*]*<\/p>)/', $source, $sinopsis);
 
         return [
             "title" => $title[1],
             "cover" => $cover[1],
+            "sinopsis" => str_replace('&nbsp;', '', trim(preg_replace('/\s\s+/', ' ', strip_tags($sinopsis[1])))),
             "chapters" => $chapters[1]
         ];
     }
@@ -52,6 +53,9 @@ class MangaController
         preg_match('/nextprev">\n.*<a href=".*chapter-(.*)-b.*rel="next/', $source, $next);
         preg_match('/<div class="main-reading-area">\n(\s*.[^*]*)<div class="chapter_nav/', $source, $images);
         preg_match_all('/<img src="(.*)" alt/', $images[1], $data);
+        preg_match_all('/<option value.*chapter-(.*)-b/', $source, $chapters);
+
+        $chapters = array_unique($chapters[1]);
 
         $data = array_map(function ($val) {
             return str_replace('https://cdn', 'https://cdn.statically.io/img/kcast/cdn-image', str_replace(' ', '%20', $val));
@@ -60,6 +64,7 @@ class MangaController
         return [
             'title' => $title[1],
             'chapter' => $chapter,
+            'chapters' => $chapters,
             'next' => count($next) > 0 ? $next[1] : null,
             'prev' => count($prev) > 0 ? $prev[1] : null,
             'data' => $data,
