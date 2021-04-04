@@ -16,21 +16,39 @@
 </script>
 
 {#if dataset}
-    <Layout>
-        <div class="block space-y-3 xl:flex xl:space-y-0">
-            <img
-                src={dataset.cover}
-                alt="Solo Leveling"
-                class="w-full xl:w-1/3 pr-0 xl:pr-5 h-full block xl:sticky top-3"
-            />
-            <div class="space-y-3">
-                <h1 class="text-3xl font-bold">
-                    {dataset.title}
-                </h1>
-                <div class="space-y-3">
+    <Layout px="0" spaceY="0" isLayeringHeader={true}>
+        <div class="block xl:flex">
+            <div class="relative xl:w-1/2 xl:top-0">
+                <div class="block xl:sticky top-0">
+                    <div class="bg-black opacity-40 w-full xl:w-3/4">
+                        <img
+                            src={dataset.cover}
+                            alt="Solo Leveling"
+                            class="w-full pr-0 h-full block  top-3"
+                        />
+                    </div>
+                    <div class="px-3 -top-32 xl:w-3/4 relative shadow-lg">
+                        <div class="space-y-3 bg-gray-800 rounded-lg p-5">
+                            <h1 class="text-xl font-bold">
+                                {dataset.title}
+                            </h1>
+                            <hr
+                                class="w-2/4 border-none h-0.5 bg-white rounded-full"
+                            />
+                            <p>
+                                {dataset.sinopsis}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="px-3 w-full xl:w-1/2 xl:px-0 -mt-32 xl:mt-0 relative pt-8 xl:pt-0"
+            >
+                <div class="grid grid-cols-5 xl:grid-cols-6 gap-3">
                     {#each dataset.chapters as chapter}
                         <ChapterItem {chapter} slug={params.slug}
-                            >Chapter {chapter}</ChapterItem
+                            >{chapter}</ChapterItem
                         >
                     {/each}
                 </div>
