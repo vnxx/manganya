@@ -53,9 +53,8 @@ class MangaController
         preg_match('/<div class="main-reading-area">\n(\s*.[^*]*)<div class="chapter_nav/', $source, $images);
         preg_match_all('/<img src="(.*)" alt/', $images[1], $data);
 
-        // https://cdn.statically.io/img/kcast/cdn-image.komikcast.com/wp-content/img/...
         $data = array_map(function ($val) {
-            return str_replace('https://cdn', 'https://cdn.statically.io/img/kcast/cdn-image', $val);
+            return str_replace('https://cdn', 'https://cdn.statically.io/img/kcast/cdn-image', str_replace(' ', '%20', $val));
         }, $data[1]);
 
         return [
