@@ -1,7 +1,7 @@
 # Mangaku
 Suka baca manga? sebal dengan iklan yang muncul terus-terusan? coba buka [mangaku.bykevin.work](https://mangaku.bykevin.work/) no iklan-iklan club.
 
-## Hot to run it locally?
+## How to run it locally?
 1. `git clone https://github.com/vnxx/mangaku.git`.
 2. `cd mangaku`.
 3. `npm install`.
