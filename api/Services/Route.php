@@ -18,7 +18,10 @@ class Route
         $params = [];
         $match = 0;
 
-        $current_path = array_values(array_filter(explode('/', $this->path)));
+        $current_path = array_values(array_filter(explode('/', $this->path), function ($val) {
+            return $val != null;
+        }));
+
         $current_route = array_values(array_filter(explode('/', $path)));
 
         if (count($current_path) == 0 || $current_path[0] != 'api') {
