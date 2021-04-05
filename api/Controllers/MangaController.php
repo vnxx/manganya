@@ -29,6 +29,33 @@ class MangaController
         ];
     }
 
+    public function search()
+    {
+        $search = isset($_GET['search']) ?  $_GET['search'] : null;
+        $data = [];
+
+        if ($search) {
+            $source = Http::get('https://bacakomik.co/?s=' . str_replace(' ', '+', $search));
+
+            preg_match_all('/<div class="animposx">\n.*[^.*]*img src="(.*)" alt/', $source, $covers);
+            preg_match_all('/<div class="tt"> <h4>(.*)<\/h4>/', $source, $titles);
+            preg_match_all('/<div class="animposx">\n.*href=".*komik\/(.*)\/" item/', $source, $slugs);
+
+            foreach ($titles[1] as $key => $title) {
+                array_push($data, [
+                    'title' => $title,
+                    'cover' => $covers[1][$key] . '.jpg',
+                    'slug' => $slugs[1][$key],
+                ]);
+            }
+        }
+
+        return [
+            'query' => $search,
+            'data' => $data
+        ];
+    }
+
     public function show($slug)
     {
         $source = Http::get('https://bacakomik.co/komik/' . $slug . '/');
