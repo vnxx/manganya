@@ -75,7 +75,10 @@ class MangaController
     public function showChapter($slug, $chapter)
     {
         $source = Http::get('https://bacakomik.co/chapter/' . $slug . '-chapter-' . $chapter . '-bahasa-indonesia/');
-        preg_match('/entry-title.*">(.*)<\/h1/', $source, $title);
+        $source2 = Http::get('https://bacakomik.co/komik/' . $slug . '/');
+
+        preg_match('/entry-title".*">(.*)</', $source2, $title);
+        preg_match('/<div class="thumb" itemprop="image" .*\n.*src="(.*)" tit/', $source, $cover);
         preg_match('/<a href=".*chapter-(.*)-ba.*rel="prev/', $source, $prev);
         preg_match('/<a href=".*chapter-(.*)-ba.*rel="next/', $source, $next);
         preg_match_all('/<img src="(.*?(?="))" alt.*?(?=Chapter)/', $source, $images);
@@ -85,8 +88,11 @@ class MangaController
 
         return [
             'title' => $title[1],
+            'slug'  => $slug,
             'chapter' => $chapter,
+            'cover' => $cover[1],
             'chapters' => $chapters[1],
+            'current' => $chapter,
             'next' => count($next) > 0 ? $next[1] : null,
             'prev' => count($prev) > 0 ? $prev[1] : null,
             'data' => $images[1],
