@@ -3,9 +3,11 @@
     import ChapterItem from "../components/ChapterItem.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
+    import FavoriteButton from "../components/FavoriteButton.svelte";
     export let params;
 
     let dataset;
+
     onMount(async () => {
         await fetch("/api/manga/" + params.slug)
             .then((r) => r.json())
@@ -28,6 +30,16 @@
                         />
                     </div>
                     <div class="px-3 -top-32 xl:w-3/4 relative shadow-lg">
+                        <div class="mb-3 flex flex-row-reverse">
+                            <FavoriteButton
+                                data={{
+                                    title: dataset.title,
+                                    slug: params.slug,
+                                    cover: dataset.cover,
+                                }}
+                            />
+                        </div>
+
                         <div class="space-y-3 bg-gray-800 rounded-lg p-5">
                             <h1 class="text-xl font-bold">
                                 {dataset.title}

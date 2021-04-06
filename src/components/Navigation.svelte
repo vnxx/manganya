@@ -22,7 +22,10 @@
         >
             <IcnSearch />
         </button>
-        <button class="p-1 fill-current rounded-full">
+        <button
+            on:click={() => push("/manga/favorites")}
+            class="p-1 fill-current rounded-full"
+        >
             <IcnPlus />
         </button>
     </div>
