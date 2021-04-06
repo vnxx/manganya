@@ -29,7 +29,7 @@
 <Layout spaceY="0" myClass={dataset ? "min-h-screen" : null}>
     <div
         class={`${
-            dataset ? "block" : "absolute min-h-screen"
+            dataset ? "block" : "absolute z-0 min-h-screen"
         } z-0 top-0 w-full xl:max-w-5xl px-3 left-0 flex`}
     >
         <div class="space-y-3 w-full xl:w-1/2 m-auto">

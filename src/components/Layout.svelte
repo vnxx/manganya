@@ -30,10 +30,10 @@
     <header
         class={isLayeringHeader
             ? "py-6 absolute xl:relative w-full top-0 z-10"
-            : "py-6"}
+            : "py-6 relative z-10"}
     >
         <h1 class="text-center font-bold text-2xl">
-            <a href="/#/">Mangaku</a>
+            <a href="/#/">Manganya</a>
         </h1>
     </header>
     {#if showNav}

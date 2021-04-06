@@ -4,6 +4,7 @@
 	import Home from "./pages/home.svelte";
 	import ReadManga from "./pages/readManga.svelte";
 	import Search from "./pages/search.svelte";
+	import Favorite from "./pages/favorite.svelte";
 </script>
 
 <main>
@@ -11,6 +12,7 @@
 		routes={{
 			"/": Home,
 			"/manga/search": Search,
+			"/manga/favorites": Favorite,
 			"/manga/:slug": Manga,
 			"/manga/:slug/:chapter": ReadManga,
 		}}
