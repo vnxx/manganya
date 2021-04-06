@@ -30,6 +30,53 @@
             .then((data) => {
                 dataset = data;
                 loading = false;
+
+                //  update hitory
+                let histories = JSON.parse(localStorage.getItem("histories"));
+                histories = histories ? histories : [];
+
+                let exitingManga = histories.filter(
+                    (val) => val.slug === params.slug
+                );
+
+                if (exitingManga.length > 0) {
+                    //  update exiting manga
+                    histories = histories.filter(
+                        (val) => val.slug !== params.slug
+                    );
+                    exitingManga = exitingManga[0];
+
+                    exitingManga.title = dataset.title;
+                    exitingManga.cover = dataset.cover;
+                    exitingManga.history.previous_chapter = dataset.prev;
+                    exitingManga.history.current_chapter = dataset.current;
+                    exitingManga.history.next_chapter = dataset.next;
+
+                    if (
+                        exitingManga.history.chapters.filter(
+                            (val) => val === params.chapter
+                        ).length === 0
+                    ) {
+                        exitingManga.history.chapters.unshift(params.chapter);
+                    }
+
+                    histories.unshift(exitingManga);
+                } else {
+                    //  add new manga to history
+                    histories.unshift({
+                        title: dataset.title,
+                        slug: dataset.slug,
+                        cover: dataset.cover,
+                        history: {
+                            previous_chapter: dataset.prev,
+                            current_chapter: dataset.current,
+                            next_chapter: dataset.next,
+                            chapters: [dataset.chapter],
+                        },
+                    });
+                }
+
+                localStorage.setItem("histories", JSON.stringify(histories));
             });
     }
 
@@ -50,12 +97,9 @@
     };
 </script>
 
-{#if !loading}
-    <div
-        class={`w-full h-full fixed top-0 bg-black ${
-            isChapterBarOpen ? "opacity-50" : "opacity-0 invisible"
-        } z-20 transition-all duration-300 ease-in-out`}
-    />
+<Loading isLoading={loading} />
+
+{#if dataset}
     <Layout px="0" showNav={false}>
         <h1 class="text-3xl text-center px-3 font-bold">
             {dataset.title}
@@ -130,6 +174,4 @@
             </div>
         </nav>
     </Layout>
-{:else}
-    <Loading />
 {/if}
