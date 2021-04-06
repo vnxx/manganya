@@ -3,10 +3,12 @@
     import ChapterItem from "../components/ChapterItem.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
+    import { push } from "svelte-spa-router";
     import FavoriteButton from "../components/FavoriteButton.svelte";
     export let params;
 
     let dataset;
+    let continueReading;
 
     onMount(async () => {
         await fetch("/api/manga/" + params.slug)
@@ -14,6 +16,15 @@
             .then((data) => {
                 dataset = data;
             });
+    });
+
+    onMount(() => {
+        let histories = JSON.parse(localStorage.getItem("histories"));
+        histories = histories ? histories : [];
+
+        continueReading = histories.filter(
+            (val) => val.slug === params.slug
+        )[0];
     });
 </script>
 
@@ -57,6 +68,32 @@
             <div
                 class="px-3 w-full xl:w-1/2 xl:px-0 -mt-32 xl:mt-0 relative pt-8 xl:pt-0"
             >
+                {#if continueReading}
+                    <div class="flex mb-8 space-x-3 overflow-auto">
+                        <button
+                            on:click={() =>
+                                push(
+                                    `/manga/${params.slug}/${continueReading.history.current_chapter}`
+                                )}
+                            class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                        >
+                            Lanjut Baca: CH {continueReading.history
+                                .current_chapter}
+                        </button>
+                        {#if continueReading.history.next_chapter}
+                            <button
+                                on:click={() =>
+                                    push(
+                                        `/manga/${params.slug}/${continueReading.history.next_chapter}`
+                                    )}
+                                class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                            >
+                                Pindah Ke: CH {continueReading.history
+                                    .next_chapter}
+                            </button>
+                        {/if}
+                    </div>
+                {/if}
                 <div class="grid grid-cols-5 xl:grid-cols-6 gap-3">
                     {#each dataset.chapters as chapter}
                         <ChapterItem {chapter} slug={params.slug}
