@@ -78,6 +78,7 @@
 
     async function call(chapter, rplc = true) {
         loading = true;
+        window.scrollTo(0, 0);
         if (rplc) {
             replace(`/manga/${params.slug}/${chapter}`);
         }
@@ -99,7 +100,7 @@
                 if (exitingManga.length > 0) {
                     //  update exiting manga
                     histories = histories.filter(
-                        (val) => val.slug !== params.slug
+                        (val) => val.slug !== dataset.slug
                     );
                     exitingManga = exitingManga[0];
 
@@ -124,6 +125,7 @@
                         title: dataset.title,
                         slug: dataset.slug,
                         cover: dataset.cover,
+                        pageYOffset: 0,
                         history: {
                             previous_chapter: dataset.prev,
                             current_chapter: dataset.current,
@@ -159,7 +161,11 @@
                 />
             {/each}
         </div>
-
+        <button
+            on:click={() => window.scrollTo(0, 0)}
+            class="p-3 w-full bg-gray-800 text-white fill-current"
+            ><IcnArrowLeft class="transform rotate-90 m-auto" /></button
+        >
         <nav
             class={`fixed w-full xl:max-w-5xl ${
                 isChapterBarOpen ? "bottom-0" : "-bottom-full"
