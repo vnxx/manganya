@@ -68,7 +68,7 @@
                     if (inHistory.history.current_chapter === params.chapter) {
                         setTimeout(() => {
                             window.scrollTo(0, inHistory.pageYOffset);
-                        }, 300);
+                        }, 600);
                     }
                 }
             }
