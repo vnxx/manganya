@@ -24,9 +24,7 @@
     };
 </script>
 
-<div
-    class={`max-w-5xl m-auto px-${px} space-y-${spaceY} relative text-white ${myClass}`}
->
+<div class={`max-w-5xl m-auto px-${px} relative text-white ${myClass}`}>
     <header
         class={isLayeringHeader
             ? "py-6 absolute xl:relative w-full top-0 z-10"
@@ -39,5 +37,7 @@
     {#if showNav}
         <Navigation />
     {/if}
-    <slot />
+    <div class={`space-y-${spaceY}`}>
+        <slot />
+    </div>
 </div>

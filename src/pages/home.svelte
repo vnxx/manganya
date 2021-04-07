@@ -23,7 +23,7 @@
     });
 </script>
 
-<Layout spaceY="6">
+<Layout spaceY="12">
     <section>
         <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
         <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
