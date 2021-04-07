@@ -40,15 +40,43 @@
                             class="w-full pr-0 h-full block  top-3"
                         />
                     </div>
-                    <div class="px-3 -top-32 xl:w-3/4 relative shadow-lg">
-                        <div class="mb-3 flex flex-row-reverse">
-                            <FavoriteButton
-                                data={{
-                                    title: dataset.title,
-                                    slug: params.slug,
-                                    cover: dataset.cover,
-                                }}
-                            />
+                    <div class="px-3 -top-52 xl:w-3/4 relative shadow-lg">
+                        <div class="flex mb-6 ">
+                            {#if continueReading}
+                                <div class="block space-y-3">
+                                    <button
+                                        on:click={() =>
+                                            push(
+                                                `/manga/${params.slug}/${continueReading.history.current_chapter}`
+                                            )}
+                                        class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                                    >
+                                        Lanjut Baca: CH {continueReading.history
+                                            .current_chapter}
+                                    </button>
+                                    {#if continueReading.history.next_chapter}
+                                        <button
+                                            on:click={() =>
+                                                push(
+                                                    `/manga/${params.slug}/${continueReading.history.next_chapter}`
+                                                )}
+                                            class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                                        >
+                                            Pindah Ke: CH {continueReading
+                                                .history.next_chapter}
+                                        </button>
+                                    {/if}
+                                </div>
+                            {/if}
+                            <div class="flex mt-auto">
+                                <FavoriteButton
+                                    data={{
+                                        title: dataset.title,
+                                        slug: params.slug,
+                                        cover: dataset.cover,
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         <div class="space-y-3 bg-gray-800 rounded-lg p-5">
@@ -66,34 +94,8 @@
                 </div>
             </div>
             <div
-                class="px-3 w-full xl:w-1/2 xl:px-0 -mt-32 xl:mt-0 relative pt-8 xl:pt-0"
+                class="px-3 w-full xl:w-1/2 xl:px-0 -mt-52 xl:mt-0 relative pt-8 xl:pt-0"
             >
-                {#if continueReading}
-                    <div class="flex mb-8 space-x-3 overflow-auto">
-                        <button
-                            on:click={() =>
-                                push(
-                                    `/manga/${params.slug}/${continueReading.history.current_chapter}`
-                                )}
-                            class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
-                        >
-                            Lanjut Baca: CH {continueReading.history
-                                .current_chapter}
-                        </button>
-                        {#if continueReading.history.next_chapter}
-                            <button
-                                on:click={() =>
-                                    push(
-                                        `/manga/${params.slug}/${continueReading.history.next_chapter}`
-                                    )}
-                                class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
-                            >
-                                Pindah Ke: CH {continueReading.history
-                                    .next_chapter}
-                            </button>
-                        {/if}
-                    </div>
-                {/if}
                 <div class="grid grid-cols-5 xl:grid-cols-6 gap-3">
                     {#each dataset.chapters as chapter}
                         <ChapterItem {chapter} slug={params.slug}

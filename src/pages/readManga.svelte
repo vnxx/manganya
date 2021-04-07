@@ -2,22 +2,79 @@
     import Layout from "../components/Layout.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
+    import { useEffect } from "../components/hook";
+    import { push } from "svelte-spa-router";
     import {
         IcnArrowLeft,
         IcnArrowRight,
         IcnClose,
+        IcnHome,
     } from "../components/Icons.svelte";
     import { replace } from "svelte-spa-router";
     import ChapterItem from "../components/ChapterItem.svelte";
 
     export let params;
     let dataset;
+    let loadedImages = 0;
     let loading = true;
     let isChapterBarOpen = false;
+    let inHistory = null;
+    let InHistories = [];
+    var prevScrollpos = window.pageYOffset;
 
     onMount(async () => {
         call(params.chapter);
     });
+
+    onMount(() => {
+        window.addEventListener("scroll", function () {
+            var currentScrollPos = window.pageYOffset;
+
+            var nav = document.getElementById("navbar");
+            if (nav) {
+                if (prevScrollpos > currentScrollPos) {
+                    nav.classList.add("bottom-4");
+                    nav.classList.remove("-bottom-20");
+                } else {
+                    nav.classList.add("-bottom-20");
+                    nav.classList.remove("bottom-4");
+                }
+                prevScrollpos = currentScrollPos;
+            }
+
+            //  update inHistory
+            if (
+                inHistory &&
+                window.location.href ===
+                    window.location.origin +
+                        "/#/manga/" +
+                        params.slug +
+                        "/" +
+                        params.chapter
+            ) {
+                inHistory.pageYOffset = currentScrollPos;
+                InHistories[
+                    InHistories.findIndex((x) => x.slug === inHistory.slug)
+                ] = inHistory;
+                localStorage.setItem("histories", JSON.stringify(InHistories));
+            }
+        });
+    });
+
+    useEffect(
+        () => {
+            if (dataset) {
+                if (dataset.data.length === loadedImages) {
+                    if (inHistory.history.current_chapter === params.chapter) {
+                        setTimeout(() => {
+                            window.scrollTo(0, inHistory.pageYOffset);
+                        }, 300);
+                    }
+                }
+            }
+        },
+        () => [loadedImages]
+    );
 
     async function call(chapter, rplc = true) {
         loading = true;
@@ -63,7 +120,7 @@
                     histories.unshift(exitingManga);
                 } else {
                     //  add new manga to history
-                    histories.unshift({
+                    exitingManga = {
                         title: dataset.title,
                         slug: dataset.slug,
                         cover: dataset.cover,
@@ -73,33 +130,21 @@
                             next_chapter: dataset.next,
                             chapters: [dataset.chapter],
                         },
-                    });
+                    };
+
+                    histories.unshift(exitingManga);
                 }
 
+                inHistory = exitingManga;
+                InHistories = histories;
                 localStorage.setItem("histories", JSON.stringify(histories));
             });
     }
-
-    var prevScrollpos = window.pageYOffset;
-    window.onscroll = function () {
-        var currentScrollPos = window.pageYOffset;
-        var nav = document.getElementById("navbar");
-        if (nav) {
-            if (prevScrollpos > currentScrollPos) {
-                nav.classList.add("bottom-4");
-                nav.classList.remove("-bottom-20");
-            } else {
-                nav.classList.add("-bottom-20");
-                nav.classList.remove("bottom-4");
-            }
-            prevScrollpos = currentScrollPos;
-        }
-    };
 </script>
 
 <Loading isLoading={loading} />
 
-{#if dataset}
+{#if !loading}
     <Layout px="0" showNav={false}>
         <h1 class="text-3xl text-center px-3 font-bold">
             {dataset.title}
@@ -107,6 +152,7 @@
         <div class="m-auto w-full">
             {#each dataset.data as url, i}
                 <img
+                    on:load={() => (loadedImages = i + 1)}
                     class="w-full"
                     src={url}
                     alt={`${dataset.title}-image-${i + 1}`}
@@ -134,6 +180,10 @@
                         {/each}
                     </div>
                 </div>
+                <button
+                    class="p-1 fill-current w-full flex items-center justify-center"
+                    on:click={() => push("/")}><IcnHome /></button
+                >
                 <button
                     class="p-1 fill-current w-full flex items-center justify-center"
                     on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
