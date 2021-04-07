@@ -2,7 +2,6 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import { onMount } from "svelte";
-    import Loading from "../components/Loading.svelte";
 
     let dataset = [];
     let continueReading = [];
