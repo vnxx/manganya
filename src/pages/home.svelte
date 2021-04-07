@@ -27,7 +27,7 @@
         <section class="mb-6">
             <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
             <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
-                {#each continueReading as data}
+                {#each continueReading.slice(0, 5) as data}
                     <MangaItem {data} />
                 {/each}
             </div>

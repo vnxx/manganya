@@ -1,5 +1,10 @@
+<script>
+    let clazz = "";
+    export { clazz as class };
+</script>
+
 <svg
-    class="Hn_ gUZ pBj U9O kVc"
+    class={clazz}
     height="16"
     width="16"
     viewBox="0 0 24 24"
