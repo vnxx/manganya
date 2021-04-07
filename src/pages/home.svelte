@@ -2,7 +2,6 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import { onMount } from "svelte";
-    import Loading from "../components/Loading.svelte";
 
     let dataset = [];
     let continueReading = [];
@@ -24,14 +23,16 @@
 </script>
 
 <Layout spaceY="6">
-    <section>
-        <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
-        <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
-            {#each continueReading as data}
-                <MangaItem {data} />
-            {/each}
-        </div>
-    </section>
+    {#if continueReading.length > 0}
+        <section>
+            <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
+            <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
+                {#each continueReading as data}
+                    <MangaItem {data} />
+                {/each}
+            </div>
+        </section>
+    {/if}
 
     <section>
         <h2 class="font-bold text-2xl mb-5">Terbaru</h2>
