@@ -22,17 +22,15 @@
     });
 </script>
 
-<Layout spaceY="6">
-    {#if continueReading.length > 0}
-        <section>
-            <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
-            <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
-                {#each continueReading as data}
-                    <MangaItem {data} />
-                {/each}
-            </div>
-        </section>
-    {/if}
+<Layout spaceY="12">
+    <section>
+        <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
+        <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
+            {#each continueReading as data}
+                <MangaItem {data} />
+            {/each}
+        </div>
+    </section>
 
     <section>
         <h2 class="font-bold text-2xl mb-5">Terbaru</h2>
