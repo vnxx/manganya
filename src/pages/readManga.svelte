@@ -155,8 +155,9 @@
             {#each dataset.data as url, i}
                 <img
                     on:load={() => (loadedImages = i + 1)}
+                    on:error={(e) => (e.target.src = url.backup_url)}
                     class="w-full"
-                    src={url}
+                    src={url.main_url}
                     alt={`${dataset.title}-image-${i + 1}`}
                 />
             {/each}
