@@ -7,6 +7,13 @@
     export let showNav = true;
     export let myClass = null;
 
+    if (typeof gtag !== "undefined") {
+        console.log(window.location.hash);
+        gtag("config", "G-ZGHVTN46GS", {
+            page_path: window.location.hash,
+        });
+    }
+
     var prevScrollpos = window.pageYOffset;
     window.onscroll = function () {
         var currentScrollPos = window.pageYOffset;
