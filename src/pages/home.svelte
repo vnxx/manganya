@@ -44,9 +44,13 @@
             {:else}
                 {#each Array(40) as _}
                     <div class="animate-pulse">
-                        <div class="sk animate-pulse bg-gray-800" />
                         <div
-                            class="mt-3 sk-t w-full bg-gray-800 animate-pulse"
+                            class="aspect-w-1 aspect-h-1 rounded-md overflow-hidden"
+                        >
+                            <div class="animate-pulse bg-gray-800" />
+                        </div>
+                        <div
+                            class="mt-3 sk-t sk-t w-full bg-gray-800 animate-pulse rounded-md"
                         />
                     </div>
                 {/each}
@@ -56,9 +60,6 @@
 </Layout>
 
 <style>
-    .sk {
-        height: 233px;
-    }
     .sk-t {
         height: 28px;
     }

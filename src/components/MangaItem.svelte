@@ -11,19 +11,21 @@
 
 <a href="#/manga/{data.slug}">
     <div
-        class={`manga-item-cover bg-gray-800  ${
+        class={`bg-gray-800 aspect-w-1 aspect-h-1 overflow-hidden rounded-md ${
             !isImageOnLoad ? "animate-pulse" : "animate-none"
         }`}
     >
-        <img
-            on:load={updateLoad()}
-            src={data.cover}
-            alt={data.title}
-            width="100%"
-            class={`transition-all duration-300 ease-in-out ${
-                isImageOnLoad ? "opacity-100" : "opacity-0"
-            }`}
-        />
+        <div>
+            <img
+                on:load={updateLoad()}
+                src={data.cover}
+                alt={data.title}
+                width="100%"
+                class={`transition-all duration-300 ease-in-out ${
+                    isImageOnLoad ? "opacity-100" : "opacity-0"
+                }`}
+            />
+        </div>
     </div>
     <div class="mt-3">
         <p
@@ -37,12 +39,3 @@
         </p>
     </div>
 </a>
-
-<style>
-    .manga-item-cover {
-        min-height: 232px;
-    }
-    .manga-title {
-        min-height: 28px;
-    }
-</style>
