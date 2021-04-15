@@ -1,10 +1,10 @@
 <script>
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
-    import { IcnGitHub } from "../components/Icons.svelte";
     import Button from "../components/Button.svelte";
     import Input from "../components/Input.svelte";
     import Loading from "../components/Loading.svelte";
+    import Footer from "../components/Footer.svelte";
 
     let search = "";
     let dataset;
@@ -45,23 +45,7 @@
             </form>
 
             {#if !dataset}
-                <div class="space-y-2 pt-3">
-                    <a
-                        class="text-center text-sm block"
-                        href="https://www.instagram.com/keevnx/"
-                        target="_blank">App by @keevnx</a
-                    >
-                    <a
-                        class="text-center text-sm block fill-current"
-                        href="https://github.com/vnxx/mangaku/"
-                        target="_blank"
-                    >
-                        <div class="flex items-center justify-center">
-                            <IcnGitHub />
-                            <span class="pl-2">github.com/vnxx/mangaku</span>
-                        </div>
-                    </a>
-                </div>
+                <Footer class="pt-3" />
             {/if}
         </div>
     </div>

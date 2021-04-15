@@ -19,9 +19,20 @@ self.addEventListener("install", installEvent => {
 })
 
 self.addEventListener("fetch", fetchEvent => {
-    fetchEvent.respondWith(
-        caches.match(fetchEvent.request).then(res => {
-            return res || fetch(fetchEvent.request)
-        })
-    )
+    if (fetchEvent.request.mode === 'navigate' || (fetchEvent.request.method === 'GET' && fetchEvent.request.headers.get('accept').includes('text/html'))) {
+        fetchEvent.respondWith(
+            fetch(fetchEvent.request.url).catch(error => {
+                // Return the offline page
+                return caches.match('/index.html');
+            })
+        );
+    }
+    else {
+        // Respond with everything else if we can
+        fetchEvent.respondWith(
+            caches.match(fetchEvent.request).then(res => {
+                return res || fetch(fetchEvent.request)
+            })
+        )
+    }
 })

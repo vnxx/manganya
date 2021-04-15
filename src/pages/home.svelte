@@ -2,6 +2,7 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import { onMount } from "svelte";
+    import { push } from "svelte-spa-router";
 
     let dataset = [];
     let continueReading = [];
@@ -23,6 +24,28 @@
 </script>
 
 <Layout spaceY="0">
+    {#if !window.matchMedia("(display-mode: standalone)").matches}
+        <section class="mb-6 xl:hidden">
+            <h2 class="font-bold text-2xl mb-3">Aplikasi Manganya</h2>
+            <div class="flex space-x-8">
+                <button
+                    on:click={() => push("/installation-guide")}
+                    class="text-left"
+                >
+                    <p>Download</p>
+                    <p>Android App</p>
+                </button>
+                <button
+                    on:click={() => push("/installation-guide")}
+                    class="text-left"
+                >
+                    <p>Download</p>
+                    <p>IOS App</p>
+                </button>
+            </div>
+        </section>
+    {/if}
+
     {#if continueReading.length > 0}
         <section class="mb-6">
             <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
