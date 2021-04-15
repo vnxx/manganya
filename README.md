@@ -21,7 +21,7 @@ Because my current plan on my hosting provider doesn't support NodeJs app. And t
 I just want to try Svelte, and this is the first time I'm using svelte. 🤔 Not bad.
 
 ## Where I get the data?
-I got from bacakomik.co, I'm using scarping technique to get the data 👀.
+I got from komikav.com, I'm using scarping technique to get the data 👀.
 
-## Do I affiliate with bacakomik.co?
-No, I choose bacakomik.co because it's fast and the cors didn't block me. For bacakomik.co I recommend you to limit the cors or use cloudflare 👌🏻. But if bacakomik.co want to buy my code for open new business model, you know how to contact me 😉.
+## Do I affiliate with komikav.com?
+No, I choose komikav.com because it's fast and the cors didn't block me. For komikav.com I recommend you to limit the cors or use cloudflare 👌🏻. But if komikav.com want to buy my code for open new business model, you know how to contact me 😉.
