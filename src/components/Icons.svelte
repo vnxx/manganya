@@ -6,6 +6,7 @@
     import Plus from "./icons/plus.svelte";
     import Search from "./icons/search.svelte";
     import GitHub from "./icons/github.svelte";
+    import Instagram from "./icons/instagram.svelte";
 
     export {
         Home as IcnHome,
@@ -15,5 +16,6 @@
         Plus as IcnPlus,
         Search as IcnSearch,
         GitHub as IcnGitHub,
+        Instagram as IcnInstagram,
     };
 </script>

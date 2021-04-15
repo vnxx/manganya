@@ -5,6 +5,7 @@
 	import ReadManga from "./pages/readManga.svelte";
 	import Search from "./pages/search.svelte";
 	import Favorite from "./pages/favorite.svelte";
+	import InstallationGuide from "./pages/installationGuide.svelte";
 </script>
 
 <main>
@@ -13,6 +14,7 @@
 			"/": Home,
 			"/manga/search": Search,
 			"/manga/favorites": Favorite,
+			"/installation-guide": InstallationGuide,
 			"/manga/:slug": Manga,
 			"/manga/:slug/:chapter": ReadManga,
 		}}
