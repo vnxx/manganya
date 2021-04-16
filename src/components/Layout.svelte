@@ -2,7 +2,7 @@
     import Navigation from "../components/Navigation.svelte";
 
     export let px = 3;
-    export let spaceY = 3;
+    export let slotClass = null;
     export let isLayeringHeader = false;
     export let showNav = true;
     export let myClass = null;
@@ -46,7 +46,7 @@
     {#if showNav}
         <Navigation />
     {/if}
-    <div class={`space-y-${spaceY}`}>
+    <div class={slotClass ? slotClass : "space-y-10"}>
         <slot />
     </div>
 </div>

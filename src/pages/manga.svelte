@@ -29,7 +29,7 @@
 </script>
 
 {#if dataset}
-    <Layout px="0" spaceY="0" isLayeringHeader={true}>
+    <Layout px="0" slotClass="space-y-0" isLayeringHeader={true}>
         <div class="block xl:flex">
             <div class="relative xl:w-1/2 xl:top-0">
                 <div class="block xl:sticky top-0">
