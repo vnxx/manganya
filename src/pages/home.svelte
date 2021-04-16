@@ -23,9 +23,9 @@
     });
 </script>
 
-<Layout spaceY="0">
+<Layout>
     {#if !window.matchMedia("(display-mode: standalone)").matches}
-        <section class="mb-6 xl:hidden">
+        <section class="xl:hidden">
             <h2 class="font-bold text-2xl mb-3">Aplikasi Manganya</h2>
             <div class="flex space-x-8">
                 <button
@@ -47,7 +47,7 @@
     {/if}
 
     {#if continueReading.length > 0}
-        <section class="mb-6">
+        <section>
             <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
             <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
                 {#each continueReading.slice(0, 5) as data}

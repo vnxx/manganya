@@ -151,22 +151,24 @@
         <h1 class="text-3xl text-center px-3 font-bold">
             {dataset.title}
         </h1>
-        <div class="m-auto w-full">
-            {#each dataset.data as url, i}
-                <img
-                    on:load={() => (loadedImages = i + 1)}
-                    on:error={(e) => (e.target.src = url.backup_url)}
-                    class="w-full"
-                    src={url.main_url}
-                    alt={`${dataset.title}-image-${i + 1}`}
-                />
-            {/each}
-        </div>
-        <button
-            on:click={() => window.scrollTo(0, 0)}
-            class="p-3 w-full bg-gray-800 text-white fill-current"
-            ><IcnArrowLeft class="transform rotate-90 m-auto" /></button
-        >
+        <section>
+            <div class="m-auto w-full">
+                {#each dataset.data as url, i}
+                    <img
+                        on:load={() => (loadedImages = i + 1)}
+                        on:error={(e) => (e.target.src = url.backup_url)}
+                        class="w-full"
+                        src={url.main_url}
+                        alt={`${dataset.title}-image-${i + 1}`}
+                    />
+                {/each}
+            </div>
+            <button
+                on:click={() => window.scrollTo(0, 0)}
+                class="p-3 w-full bg-gray-800 text-white fill-current"
+                ><IcnArrowLeft class="transform rotate-90 m-auto" /></button
+            >
+        </section>
         <nav
             class={`fixed w-full xl:max-w-5xl ${
                 isChapterBarOpen ? "bottom-0" : "-bottom-full"

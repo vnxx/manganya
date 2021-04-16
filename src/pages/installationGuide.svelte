@@ -3,7 +3,7 @@
     import Footer from "../components/Footer.svelte";
 </script>
 
-<Layout spaceY="10">
+<Layout>
     <section>
         <h2 class="font-bold text-2xl mb-3">Download For Android</h2>
         <div class="space-y-5">
