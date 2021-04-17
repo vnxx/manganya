@@ -206,11 +206,11 @@
             class="fixed left-0 flex justify-center items-center bottom-4 w-full z-10 transition-all duration-300 ease-in-out"
         >
             <div
-                class="flex justify-between w-1/2 xl:w-1/6 p-3 rounded-full bg-gray-800 shadow-md"
+                class="flex justify-between w-1/2 xl:w-1/6 rounded-full bg-gray-800 shadow-md"
             >
                 {#if dataset.prev}
                     <button
-                        class="p-1 fill-current rounded-full"
+                        class="p-3 px-5 fill-current rounded-full"
                         on:click={call(dataset.prev)}
                     >
                         <IcnArrowLeft />
@@ -218,14 +218,14 @@
                 {/if}
                 <button
                     on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
-                    class="p-1 fill-current rounded-full"
+                    class="p-3 px-5 fill-current rounded-full"
                 >
                     {params.chapter}
                 </button>
                 {#if dataset.next}
                     <button
                         on:click={call(dataset.next)}
-                        class="p-1 fill-current rounded-full"
+                        class="p-3 px-5 fill-current rounded-full"
                     >
                         <IcnArrowRight />
                     </button>
