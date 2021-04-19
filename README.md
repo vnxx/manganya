@@ -15,7 +15,7 @@ Just like usual way, but before you make a pull request, make sure you have run 
 A couples days back, when I heard hataraku maou-sama will get next season (season 2), I rewatch the season 1, and I realise I can't wait for season 2 come up. Short story, because I can't wait for season 2 I decided to read the manga from chapter 20 until 82 and chapter 83 - 93 (english version). But it didn't answer the question why do I build this 🤪. Ok the answer is because when I read the manga I got so many ads pop up on my screen. Get it?
 
 ## Why don't I read the legal manga instead?
-the answer is because I don't know where to go. this is the ironic thing about this industry (Movies, comics, etc). that it's easier to access the illegal stuff than the legal stuff. if you type Hataraku Maou-sama chapter 82 or anything else when you see the result, what kind of sites you get? the legal or illegal? even though you can find the legal sites how about the <b>payment method?<b>
+The answer is because I don't know where to go. this is the ironic thing about this industry (Movies, comics, etc). that it's easier to access the illegal stuff than the legal stuff. if you type on google "Hataraku Maou-sama chapter 82" or anything else when you see the result, what kind of sites you get? the legal or illegal? even though you can find the legal sites how about the <b>payment method?</b>
 
 I'm using Netflix I paid for it each month, I have access to the payment method (debit card), why do I use Netflix instead of the illegal sites? not because Netflix is a is legal site, but it's more like the benefit of using Netflix. if you ask me which one is easier to access I would answer Netflix and the features it's helpful. 
 
@@ -23,7 +23,7 @@ There are three kinds of customers: price-oriented customer, value-oriented cust
 
 I believe people who are using this site is a price-oriented customer or even a value-oriented customer.
 
-if you have recommendation legal sites you can dm me I would love to try. what are comics that I read? Hataraku-maou sama, and Solo leveling, just it.
+If you have recommendation legal sites you can dm me I would love to try. what are comics that I read? Hataraku-maou sama, and Solo leveling, just it.
 
 ## Why do I use PHP instead of NodeJs?
 Because my current plan on my hosting provider doesn't support NodeJs app. And the main reason is PHP is more cheaper.
