@@ -6,12 +6,20 @@
 
     let dataset = [];
     let continueReading = [];
+    let errorMessage = null;
+    let isLoading = true;
 
     onMount(async () => {
         await fetch("/api")
             .then((r) => r.json())
             .then((data) => {
-                dataset = data.data;
+                if (data.status == "SUCCESS") {
+                    dataset = data.data;
+                } else {
+                    dataset = [];
+                    errorMessage = data.message;
+                }
+                isLoading = false;
             });
     });
 
@@ -59,8 +67,15 @@
 
     <section>
         <h2 class="font-bold text-2xl mb-5">Terbaru</h2>
+        {#if errorMessage}
+            <div class="text-center bg-red-900 text-white py-6">
+                {errorMessage}
+            </div>
+            <div class="sk-t" />
+        {/if}
+
         <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
-            {#if dataset.length > 0}
+            {#if !isLoading}
                 {#each dataset as data}
                     <MangaItem {data} />
                 {/each}

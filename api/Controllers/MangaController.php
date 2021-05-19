@@ -10,9 +10,13 @@ class MangaController
     {
         $source = Http::get('https://bacakomik.co/komik-terbaru');
 
-        preg_match_all('/<div class="animposx">\n.*[^.*]*img src="(.*)" alt/', $source, $covers);
-        preg_match_all('/<div class="tt"> <h4>(.*)<\/h4>/', $source, $titles);
-        preg_match_all('/<div class="animposx">\n.*href=".*komik\/(.*)\/" item/', $source, $slugs);
+        if (!$source->isSuccess()) {
+            return $source->showError();
+        }
+
+        preg_match_all('/<div class="animposx">\n.*[^.*]*img src="(.*)" alt/', $source->response(), $covers);
+        preg_match_all('/<div class="tt"> <h4>(.*)<\/h4>/', $source->response(), $titles);
+        preg_match_all('/<div class="animposx">\n.*href=".*komik\/(.*)\/" item/', $source->response(), $slugs);
 
         $data = [];
 
@@ -25,6 +29,7 @@ class MangaController
         }
 
         return [
+            'status' => 'SUCCESS',
             "data" => $data
         ];
     }
@@ -37,9 +42,13 @@ class MangaController
         if ($search) {
             $source = Http::get('https://bacakomik.co/?s=' . str_replace(' ', '+', $search));
 
-            preg_match_all('/<div class="animposx">\n.*[^.*]*img src="(.*)" alt/', $source, $covers);
-            preg_match_all('/<div class="tt"> <h4>(.*)<\/h4>/', $source, $titles);
-            preg_match_all('/<div class="animposx">\n.*href=".*komik\/(.*)\/" item/', $source, $slugs);
+            if (!$source->isSuccess()) {
+                return $source->showError();
+            }
+
+            preg_match_all('/<div class="animposx">\n.*[^.*]*img src="(.*)" alt/', $source->response(), $covers);
+            preg_match_all('/<div class="tt"> <h4>(.*)<\/h4>/', $source->response(), $titles);
+            preg_match_all('/<div class="animposx">\n.*href=".*komik\/(.*)\/" item/', $source->response(), $slugs);
 
             foreach ($titles[1] as $key => $title) {
                 array_push($data, [
@@ -51,6 +60,7 @@ class MangaController
         }
 
         return [
+            'status' => 'SUCCESS',
             'query' => $search,
             'data' => $data
         ];
@@ -59,12 +69,18 @@ class MangaController
     public function show($slug)
     {
         $source = Http::get('https://bacakomik.co/komik/' . $slug . '/');
-        preg_match_all('/lchx.*<a href=".*chapter-(.*)-bah/', $source, $chapters);
-        preg_match('/entry-title".*">(.*)</', $source, $title);
-        preg_match('/<div class="thumb" itemprop="image" .*\n.*src="(.*)" tit/', $source, $cover);
-        preg_match('/description">\n.*<p>(.*[^<]*)<\/p>/', $source, $sinopsis);
+
+        if (!$source->isSuccess()) {
+            return $source->showError();
+        }
+
+        preg_match_all('/lchx.*<a href=".*chapter-(.*)-bah/', $source->response(), $chapters);
+        preg_match('/entry-title".*">(.*)</', $source->response(), $title);
+        preg_match('/<div class="thumb" itemprop="image" .*\n.*src="(.*)" tit/', $source->response(), $cover);
+        preg_match('/description">\n.*<p>(.*[^<]*)<\/p>/', $source->response(), $sinopsis);
 
         return [
+            "status" => 'SUCCESS',
             "title" => $title[1],
             "cover" => $cover[1],
             "sinopsis" => str_replace('&nbsp;', '', trim(preg_replace('/\s\s+/', ' ', strip_tags($sinopsis[1])))),
@@ -75,17 +91,24 @@ class MangaController
     public function showChapter($slug, $chapter)
     {
         $source = Http::get('https://bacakomik.co/chapter/' . $slug . '-chapter-' . $chapter . '-bahasa-indonesia/');
-        $source2 = Http::get('https://bacakomik.co/komik/' . $slug . '/');
 
-        preg_match('/entry-title".*">(.*)</', $source2, $title);
-        preg_match('/<div class="thumb" itemprop="image" .*\n.*src="(.*)" tit/', $source, $cover);
-        preg_match('/<a href=".*chapter-(.*)-ba.*rel="prev/', $source, $prev);
-        preg_match('/<a href=".*chapter-(.*)-ba.*rel="next/', $source, $next);
-        preg_match_all('/<img src="(.*?(?="))" alt.*?(?=Chapter)/', $source, $mainImages);
-        preg_match_all("/this.src='(.*?(?='))/", $source, $backupIamges);
+        if (!$source->isSuccess()) {
+            return $source->showError();
+        }
+
+        preg_match('/<div class="thumb" itemprop="image" .*\n.*src="(.*)" tit/', $source->response(), $cover);
+        preg_match('/<a href=".*chapter-(.*)-ba.*rel="prev/', $source->response(), $prev);
+        preg_match('/<a href=".*chapter-(.*)-ba.*rel="next/', $source->response(), $next);
+        preg_match_all('/<img src="(.*?(?="))" alt.*?(?=Chapter)/', $source->response(), $mainImages);
+        preg_match_all("/this.src='(.*?(?='))/", $source->response(), $backupIamges);
 
         $source2 = Http::get('https://bacakomik.co/komik/' . $slug . '/');
-        preg_match_all('/lchx.*<a href=".*chapter-(.*)-bah/', $source2, $chapters);
+        preg_match('/entry-title".*">(.*)</', $source2->response(), $title);
+        preg_match_all('/lchx.*<a href=".*chapter-(.*)-bah/', $source2->response(), $chapters);
+
+        if (!$source2->isSuccess()) {
+            return $source->showError();
+        }
 
         $images = [];
 
@@ -97,6 +120,7 @@ class MangaController
         }
 
         return [
+            'status' => 'SUCCESS',
             'title' => $title[1],
             'slug'  => $slug,
             'chapter' => $chapter,
