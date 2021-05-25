@@ -1,4 +1,4 @@
-const staticCache = "manganya-1.0"
+const staticCache = "manganya-1.1"
 const assets = [
     "/",
     "/index.html",
@@ -8,6 +8,7 @@ const assets = [
     '/build/bundle.css',
     '/build/bundle.js',
     '/build/bundle.js.map',
+    '/data_broken.gif'
 ]
 
 self.addEventListener("install", installEvent => {

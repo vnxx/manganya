@@ -2,24 +2,17 @@
     import { onMount } from "svelte";
 
     import { IcnPlus, IcnClose } from "../components/Icons.svelte";
+    import { isInFavorites, getFavorites } from "../helper";
 
     export let data;
+    export let callback;
     let isInFavorite = false;
 
     onMount(() => {
-        let favorites = getFavorites();
-
-        if (favorites.filter((val) => val.slug === data.slug).length > 0) {
+        if (isInFavorites(data.slug)) {
             isInFavorite = true;
         }
     });
-
-    function getFavorites() {
-        let favorites = JSON.parse(localStorage.getItem("favorites"));
-        favorites = favorites ? favorites : [];
-
-        return favorites;
-    }
 
     function addFavorite() {
         let favorites = getFavorites();
@@ -33,6 +26,9 @@
         localStorage.setItem("favorites", JSON.stringify(favorites));
 
         isInFavorite = true;
+        if (callback) {
+            callback();
+        }
     }
 
     function removeFavorite() {
@@ -44,6 +40,9 @@
         );
 
         isInFavorite = false;
+        if (callback) {
+            callback();
+        }
     }
 </script>
 
