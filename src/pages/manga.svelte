@@ -62,9 +62,10 @@
             <div class="space-y-6">
                 <ErrorResponse {error} />
 
-                <div class="w-full flex justify-center space-y-3 px-3">
+                <div class="w-full space-y-3 px-3">
                     {#if isInFavorite}
                         <FavoriteButton
+                            class="m-auto w-max block"
                             callback={() => (isInFavorite = false)}
                             data={{
                                 title: null,
@@ -74,7 +75,9 @@
                         />
                     {/if}
                     {#if isInHistory}
-                        <MyButton onclick={() => removeFH()} class="w-max px-6"
+                        <MyButton
+                            onclick={() => removeFH()}
+                            class="w-max px-6 block m-auto"
                             >Hapus Manga Dari History</MyButton
                         >
                     {/if}

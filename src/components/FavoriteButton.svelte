@@ -4,8 +4,10 @@
     import { IcnPlus, IcnClose } from "../components/Icons.svelte";
     import { isInFavorites, getFavorites } from "../helper";
 
+    let clazz;
     export let data;
     export let callback;
+    export { clazz as class };
     let isInFavorite = false;
 
     onMount(() => {
@@ -50,7 +52,7 @@
     <div
         class={`shadow-md fill-current flex justify-center items-center p-2 w-auto rounded-full ${
             isInFavorite ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-        } text-md px-4 font-bold transition-all duration-300 ease-in-out`}
+        } text-md px-4 font-bold transition-all duration-300 ease-in-out ${clazz}`}
     >
         {#if isInFavorite}
             <IcnClose />
