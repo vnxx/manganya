@@ -5,12 +5,21 @@
     import Loading from "../components/Loading.svelte";
     import { push } from "svelte-spa-router";
     import FavoriteButton from "../components/FavoriteButton.svelte";
+    import ErrorResponse from "../components/ErrorResponse.svelte";
+    import {
+        isInFavorites,
+        removeFromHistories,
+        isInHistories,
+    } from "../helper";
+    import MyButton from "../components/Button.svelte";
     export let params;
 
     let dataset;
     let continueReading;
-    let errorMessage = null;
+    let error = null;
     let isLoading = true;
+    let isInFavorite = false;
+    let isInHistory = false;
 
     onMount(async () => {
         await fetch("/api/manga/" + params.slug)
@@ -19,7 +28,7 @@
                 if (data.status == "SUCCESS") {
                     dataset = data;
                 } else {
-                    errorMessage = data.message;
+                    error = data;
                 }
                 isLoading = false;
             });
@@ -32,18 +41,44 @@
         continueReading = histories.filter(
             (val) => val.slug === params.slug
         )[0];
+
+        if (isInFavorites(params.slug)) {
+            isInFavorite = true;
+        }
+        if (isInHistories(params.slug)) {
+            isInHistory = true;
+        }
     });
+
+    function removeFH() {
+        removeFromHistories(params.slug);
+        isInHistory = false;
+    }
 </script>
 
 {#if !isLoading}
-    <Layout
-        px="0"
-        slotClass="space-y-0"
-        isLayeringHeader={errorMessage == null}
-    >
-        {#if errorMessage}
-            <div class="text-center bg-red-900 text-white py-6">
-                {errorMessage}
+    <Layout px="0" slotClass="space-y-0" isLayeringHeader={error == null}>
+        {#if error}
+            <div class="space-y-6">
+                <ErrorResponse {error} />
+
+                <div class="w-full flex justify-center space-y-3 px-3">
+                    {#if isInFavorite}
+                        <FavoriteButton
+                            callback={() => (isInFavorite = false)}
+                            data={{
+                                title: null,
+                                slug: params.slug,
+                                cover: null,
+                            }}
+                        />
+                    {/if}
+                    {#if isInHistory}
+                        <MyButton onclick={() => removeFH()} class="w-max px-6"
+                            >Hapus Manga Dari History</MyButton
+                        >
+                    {/if}
+                </div>
             </div>
         {:else}
             <div class="block xl:flex">
@@ -57,9 +92,9 @@
                             />
                         </div>
                         <div class="px-3 -top-52 xl:w-3/4 relative shadow-lg">
-                            <div class="flex mb-6 ">
-                                {#if continueReading}
-                                    <div class="block space-y-3">
+                            <div class="flex mb-6 justify-between">
+                                <div class="block space-y-3">
+                                    {#if continueReading}
                                         <button
                                             on:click={() =>
                                                 push(
@@ -82,8 +117,8 @@
                                                     .history.next_chapter}
                                             </button>
                                         {/if}
-                                    </div>
-                                {/if}
+                                    {/if}
+                                </div>
                                 <div class="flex mt-auto">
                                     <FavoriteButton
                                         data={{

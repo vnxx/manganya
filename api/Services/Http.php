@@ -14,6 +14,7 @@ class Http
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         self::$source = curl_exec($ch);
         self::$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
@@ -42,7 +43,7 @@ class Http
 
     public static function showError()
     {
-        $error_message = '';
+        $error_message = 'Terjadi kesalahan';
 
         if (self::$status >= 500) {
             $error_message = 'Server Error';

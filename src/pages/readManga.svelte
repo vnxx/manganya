@@ -4,6 +4,7 @@
     import Loading from "../components/Loading.svelte";
     import { useEffect } from "../components/hook";
     import { push } from "svelte-spa-router";
+    import ErrorResponse from "../components/ErrorResponse.svelte";
     import {
         IcnArrowLeft,
         IcnArrowRight,
@@ -17,7 +18,7 @@
     let dataset;
     let loadedImages = 0;
     let loading = true;
-    let errorMessage = null;
+    let error = null;
     let isChapterBarOpen = false;
     let inHistory = null;
     let InHistories = [];
@@ -148,7 +149,7 @@
                         JSON.stringify(histories)
                     );
                 } else {
-                    errorMessage = data.message;
+                    error = data;
                 }
 
                 dataset = data;
@@ -161,10 +162,8 @@
 
 {#if !loading}
     <Layout px="0" showNav={false}>
-        {#if errorMessage != null}
-            <div class="text-center bg-red-900 text-white py-6">
-                {errorMessage}
-            </div>
+        {#if error != null}
+            <ErrorResponse {error} />
         {:else}
             <h1 class="text-3xl text-center px-3 font-bold">
                 {dataset.title}
@@ -211,6 +210,11 @@
                     <button
                         class="p-1 fill-current w-full flex items-center justify-center"
                         on:click={() => push("/")}><IcnHome /></button
+                    >
+                    <button
+                        class="text-center w-full"
+                        on:click={() => push("/manga/" + dataset.slug)}
+                        >{dataset.title}</button
                     >
                     <button
                         class="p-1 fill-current w-full flex items-center justify-center"
