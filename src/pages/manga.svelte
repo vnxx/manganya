@@ -10,6 +10,7 @@
         isInFavorites,
         removeFromHistories,
         isInHistories,
+        getHistories,
     } from "../helper";
     import MyButton from "../components/Button.svelte";
     export let params;
@@ -30,18 +31,38 @@
                 } else {
                     error = data;
                 }
+
+                //  check next_chapter
+                let histories = getHistories();
+                let h_i_open = histories
+                    .map((e) => e.slug)
+                    .indexOf(params.slug);
+                if (
+                    h_i_open > -1 &&
+                    histories[h_i_open].history.next_chapter === null
+                ) {
+                    let index = data.chapters.indexOf(
+                        histories[h_i_open].history.current_chapter
+                    );
+                    console.log(data.chapters.length);
+                    console.log(index);
+                    if (data.chapters.length - 1 > index) {
+                        histories[h_i_open].history.next_chapter =
+                            data.chapters[index - 1];
+                        localStorage.setItem(
+                            "histories",
+                            JSON.stringify(histories)
+                        );
+                    }
+                }
+
+                continueReading = histories[h_i_open];
+
                 isLoading = false;
             });
     });
 
     onMount(() => {
-        let histories = JSON.parse(localStorage.getItem("histories"));
-        histories = histories ? histories : [];
-
-        continueReading = histories.filter(
-            (val) => val.slug === params.slug
-        )[0];
-
         if (isInFavorites(params.slug)) {
             isInFavorite = true;
         }
@@ -65,7 +86,7 @@
                 <div class="w-full space-y-3 px-3">
                     {#if isInFavorite}
                         <FavoriteButton
-                            class="m-auto w-max block"
+                            class="m-auto block"
                             callback={() => (isInFavorite = false)}
                             data={{
                                 title: null,

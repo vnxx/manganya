@@ -48,11 +48,14 @@
     }
 </script>
 
-<button on:click={() => (isInFavorite ? removeFavorite() : addFavorite())}>
+<button
+    class={clazz}
+    on:click={() => (isInFavorite ? removeFavorite() : addFavorite())}
+>
     <div
         class={`shadow-md fill-current flex justify-center items-center p-2 w-auto rounded-full ${
             isInFavorite ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-        } text-md px-4 font-bold transition-all duration-300 ease-in-out ${clazz}`}
+        } text-md px-4 font-bold transition-all duration-300 ease-in-out`}
     >
         {#if isInFavorite}
             <IcnClose />
