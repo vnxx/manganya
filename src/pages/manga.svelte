@@ -39,14 +39,15 @@
                     .indexOf(params.slug);
                 if (
                     h_i_open > -1 &&
-                    histories[h_i_open].history.next_chapter === null
+                    (typeof histories[h_i_open].history.next_chapter ===
+                        "undefined" ||
+                        histories[h_i_open].history.next_chapter === null)
                 ) {
                     let index = data.chapters.indexOf(
                         histories[h_i_open].history.current_chapter
                     );
-                    console.log(data.chapters.length);
-                    console.log(index);
-                    if (data.chapters.length - 1 > index) {
+                    if (data.chapters.length > index) {
+                        console.log("okok");
                         histories[h_i_open].history.next_chapter =
                             data.chapters[index - 1];
                         localStorage.setItem(
