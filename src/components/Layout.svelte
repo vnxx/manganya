@@ -46,7 +46,7 @@
     {#if showNav}
         <Navigation />
     {/if}
-    <div class={slotClass ? slotClass : "space-y-10"}>
+    <div class={`main-caontainer ${slotClass ? slotClass : "space-y-10"}`}>
         <slot />
     </div>
 </div>
