@@ -26,7 +26,7 @@
 
 <Loading isLoading={loading} />
 
-<Layout spaceY="0" myClass={dataset ? "min-h-screen" : null}>
+<Layout title="Search" spaceY="0" myClass={dataset ? "min-h-screen" : null}>
     <div
         class={`${
             dataset ? "block" : "absolute z-0 min-h-screen"

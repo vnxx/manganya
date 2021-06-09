@@ -79,7 +79,12 @@
 </script>
 
 {#if !isLoading}
-    <Layout px="0" slotClass="space-y-0" isLayeringHeader={error == null}>
+    <Layout
+        title="Manga Detail"
+        px="0"
+        slotClass="space-y-0"
+        isLayeringHeader={error == null}
+    >
         {#if error}
             <div class="space-y-6">
                 <ErrorResponse {error} />

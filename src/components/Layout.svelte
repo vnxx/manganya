@@ -6,10 +6,14 @@
     export let isLayeringHeader = false;
     export let showNav = true;
     export let myClass = null;
+    export let title = "";
 
     if (typeof gtag !== "undefined") {
-        gtag("config", "G-ZGHVTN46GS", {
-            page_path: window.location.hash,
+        gtag("event", "page_view", {
+            page_title: title,
+            page_location: window.location.href,
+            page_path: window.location.hash.slice(1),
+            send_to: "G-ZGHVTN46GS",
         });
     }
 

@@ -11,7 +11,7 @@
     });
 </script>
 
-<Layout>
+<Layout title="Favorites">
     <section>
         <h1 class="font-bold text-2xl mb-5">Favorites</h1>
         <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
