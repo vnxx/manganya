@@ -49,7 +49,7 @@
     });
 </script>
 
-<Layout>
+<Layout title="Home">
     {#if !window.matchMedia("(display-mode: standalone)").matches}
         <section class="xl:hidden">
             <h2 class="font-bold text-2xl mb-3">Aplikasi Manganya</h2>
