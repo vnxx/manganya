@@ -6,10 +6,14 @@
     export let isLayeringHeader = false;
     export let showNav = true;
     export let myClass = null;
+    export let title = "";
 
     if (typeof gtag !== "undefined") {
-        gtag("config", "G-ZGHVTN46GS", {
-            page_path: window.location.hash,
+        gtag("event", "page_view", {
+            page_title: title,
+            page_location: window.location.href,
+            page_path: window.location.hash.slice(1),
+            send_to: "G-ZGHVTN46GS",
         });
     }
 
@@ -46,7 +50,7 @@
     {#if showNav}
         <Navigation />
     {/if}
-    <div class={slotClass ? slotClass : "space-y-10"}>
+    <div class={`main-caontainer ${slotClass ? slotClass : "space-y-10"}`}>
         <slot />
     </div>
 </div>

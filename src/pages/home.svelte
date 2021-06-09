@@ -8,6 +8,7 @@
     let continueReading = [];
     let errorMessage = null;
     let isLoading = true;
+    let itemWidth = 0;
 
     onMount(async () => {
         await fetch("/api")
@@ -23,15 +24,32 @@
             });
     });
 
+    function updateItemWidth() {
+        let gapCount = 2;
+        let containerWidth =
+            document.getElementsByClassName("main-caontainer")[0].clientWidth;
+        if (window.innerWidth > 1024) {
+            gapCount = 5;
+        }
+
+        itemWidth = (containerWidth - (gapCount - 1) * 24) / gapCount;
+    }
+
     onMount(() => {
         let histories = JSON.parse(localStorage.getItem("histories"));
         histories = histories ? histories : [];
 
         continueReading = histories;
+
+        updateItemWidth();
+
+        window.addEventListener("resize", () => {
+            updateItemWidth();
+        });
     });
 </script>
 
-<Layout>
+<Layout title="Home">
     {#if !window.matchMedia("(display-mode: standalone)").matches}
         <section class="xl:hidden">
             <h2 class="font-bold text-2xl mb-3">Aplikasi Manganya</h2>
@@ -57,9 +75,9 @@
     {#if continueReading.length > 0}
         <section>
             <h2 class="font-bold text-2xl mb-5">Lanjut Baca</h2>
-            <div class="grid grid-cols-2 xl:grid-cols-5 gap-6">
+            <div class="flex overflow-x-auto space-x-6">
                 {#each continueReading.slice(0, 5) as data}
-                    <MangaItem {data} />
+                    <MangaItem width={`${itemWidth}px`} {data} />
                 {/each}
             </div>
         </section>

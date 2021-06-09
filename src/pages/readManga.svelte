@@ -161,7 +161,7 @@
 <Loading isLoading={loading} />
 
 {#if !loading}
-    <Layout px="0" showNav={false}>
+    <Layout title="Read Manga" px="0" showNav={false}>
         {#if error != null}
             <ErrorResponse {error} />
         {:else}

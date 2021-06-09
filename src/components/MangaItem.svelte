@@ -1,5 +1,6 @@
 <script>
     export let data;
+    export let width = "auto";
     let isImageOnLoad = false;
 
     function updateLoad() {
@@ -9,11 +10,12 @@
     }
 </script>
 
-<a href="#/manga/{data.slug}">
+<a href="#/manga/{data.slug}" style={`width: ${width}`}>
     <div
-        class={`bg-gray-800 aspect-w-1 aspect-h-1 overflow-hidden rounded-md ${
-            !isImageOnLoad ? "animate-pulse" : "animate-none"
-        }`}
+        style={`width: ${width}; height: ${width}`}
+        class={`bg-gray-800 overflow-hidden rounded-md ${
+            width === "auto" ? "aspect-w-1 aspect-h-1" : null
+        } ${!isImageOnLoad ? "animate-pulse" : "animate-none"}`}
     >
         <div>
             <img
