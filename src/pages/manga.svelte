@@ -1,10 +1,10 @@
 <script>
     import Layout from "../components/Layout.svelte";
+    import { useNavigate } from "svelte-navigator";
     import ChapterItem from "../components/ChapterItem.svelte";
     import { IcnShare } from "../components/Icons.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
-    import { push } from "svelte-spa-router";
     import FavoriteButton from "../components/FavoriteButton.svelte";
     import ErrorResponse from "../components/ErrorResponse.svelte";
     import ShareBox from "../components/ShareBox.svelte";
@@ -15,7 +15,7 @@
         getHistories,
     } from "../helper";
     import MyButton from "../components/Button.svelte";
-    export let params;
+    export let slug;
 
     let dataset;
     let continueReading;
@@ -25,8 +25,10 @@
     let isInHistory = false;
     let isShareBarOpen = false;
 
+    const navigate = useNavigate();
+
     onMount(async () => {
-        await fetch("/api/manga/" + params.slug)
+        await fetch("/api/manga/" + slug)
             .then((r) => r.json())
             .then((data) => {
                 if (data.status == "SUCCESS") {
@@ -37,9 +39,7 @@
 
                 //  check next_chapter
                 let histories = getHistories();
-                let h_i_open = histories
-                    .map((e) => e.slug)
-                    .indexOf(params.slug);
+                let h_i_open = histories.map((e) => e.slug).indexOf(slug);
                 if (
                     h_i_open > -1 &&
                     (typeof histories[h_i_open].history.next_chapter ===
@@ -50,7 +50,6 @@
                         histories[h_i_open].history.current_chapter
                     );
                     if (data.chapters.length > index) {
-                        console.log("okok");
                         histories[h_i_open].history.next_chapter =
                             data.chapters[index - 1];
                         localStorage.setItem(
@@ -67,16 +66,16 @@
     });
 
     onMount(() => {
-        if (isInFavorites(params.slug)) {
+        if (isInFavorites(slug)) {
             isInFavorite = true;
         }
-        if (isInHistories(params.slug)) {
+        if (isInHistories(slug)) {
             isInHistory = true;
         }
     });
 
     function removeFH() {
-        removeFromHistories(params.slug);
+        removeFromHistories(slug);
         isInHistory = false;
     }
 </script>
@@ -99,7 +98,7 @@
                             callback={() => (isInFavorite = false)}
                             data={{
                                 title: null,
-                                slug: params.slug,
+                                slug: slug,
                                 cover: null,
                             }}
                         />
@@ -134,8 +133,8 @@
                                     {#if continueReading}
                                         <button
                                             on:click={() =>
-                                                push(
-                                                    `/manga/${params.slug}/${continueReading.history.current_chapter}`
+                                                navigate(
+                                                    `/manga/${slug}/${continueReading.history.current_chapter}`
                                                 )}
                                             class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
                                         >
@@ -145,8 +144,8 @@
                                         {#if continueReading.history.next_chapter}
                                             <button
                                                 on:click={() =>
-                                                    push(
-                                                        `/manga/${params.slug}/${continueReading.history.next_chapter}`
+                                                    navigate(
+                                                        `/manga/${slug}/${continueReading.history.next_chapter}`
                                                     )}
                                                 class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
                                             >
@@ -160,7 +159,7 @@
                                     <FavoriteButton
                                         data={{
                                             title: dataset.title,
-                                            slug: params.slug,
+                                            slug: slug,
                                             cover: dataset.cover,
                                         }}
                                     />
@@ -193,8 +192,7 @@
                 >
                     <div class="grid grid-cols-5 xl:grid-cols-6 gap-3">
                         {#each dataset.chapters as chapter}
-                            <ChapterItem {chapter} slug={params.slug}
-                                >{chapter}</ChapterItem
+                            <ChapterItem {chapter} {slug}>{chapter}</ChapterItem
                             >
                         {/each}
                     </div>

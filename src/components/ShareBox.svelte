@@ -20,7 +20,7 @@
 </script>
 
 <DrawerBox {isOpen} {onClose}>
-	<div class="p-3 text-white">
+	<div class="p-3 text-white pb-12">
 		<p class="font-bold mb-3">Share</p>
 		<div class="space-y-3">
 			<div class="space-x-3">

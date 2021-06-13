@@ -1,6 +1,8 @@
 <script>
-    import { push } from "svelte-spa-router";
+    import { useNavigate } from "svelte-navigator";
     import { IcnHome, IcnSearch, IcnPlus } from "./Icons.svelte";
+
+    const navigate = useNavigate();
 </script>
 
 <nav
@@ -12,18 +14,18 @@
     >
         <button
             class="p-1 fill-current rounded-full"
-            on:click={() => push("/")}
+            on:click={() => navigate("/")}
         >
             <IcnHome />
         </button>
         <button
-            on:click={() => push("/manga/search")}
+            on:click={() => navigate("/manga/search")}
             class="p-1 fill-current rounded-full"
         >
             <IcnSearch />
         </button>
         <button
-            on:click={() => push("/manga/favorites")}
+            on:click={() => navigate("/manga/favorites")}
             class="p-1 fill-current rounded-full"
         >
             <IcnPlus />
