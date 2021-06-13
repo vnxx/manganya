@@ -1,5 +1,6 @@
 <script>
     import Navigation from "../components/Navigation.svelte";
+    import { Link } from "svelte-navigator";
 
     export let px = 3;
     export let slotClass = null;
@@ -40,11 +41,13 @@
             ? "py-6 absolute xl:relative w-full top-0 z-10"
             : "py-6 relative z-10"}
     >
-        <h1 class="text-center font-bold">
-            <a class="inline-flex" href="/#/">
-                <img class="logo mr-3" src="/logo-white.png" alt="logo" />
-                <span class="text-xl">Manganya</span></a
-            >
+        <h1 class="text-center font-bold outline-none">
+            <Link to="/">
+                <div class="inline-flex">
+                    <img class="logo mr-3" src="/logo-white.png" alt="logo" />
+                    <span class="text-xl">Manganya</span>
+                </div>
+            </Link>
         </h1>
     </header>
     {#if showNav}

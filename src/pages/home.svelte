@@ -2,13 +2,15 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import { onMount } from "svelte";
-    import { push } from "svelte-spa-router";
+    import { useNavigate } from "svelte-navigator";
 
     let dataset = [];
     let continueReading = [];
     let errorMessage = null;
     let isLoading = true;
     let itemWidth = 0;
+
+    const navigate = useNavigate();
 
     onMount(async () => {
         await fetch("/api")
@@ -55,14 +57,14 @@
             <h2 class="font-bold text-2xl mb-3">Aplikasi Manganya</h2>
             <div class="flex space-x-8">
                 <button
-                    on:click={() => push("/installation-guide")}
+                    on:click={() => navigate("/installation-guide")}
                     class="text-left"
                 >
                     <p>Download</p>
                     <p>Android App</p>
                 </button>
                 <button
-                    on:click={() => push("/installation-guide")}
+                    on:click={() => navigate("/installation-guide")}
                     class="text-left"
                 >
                     <p>Download</p>

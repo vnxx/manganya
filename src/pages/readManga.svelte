@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
     import { useEffect } from "../components/hook";
-    import { push } from "svelte-spa-router";
+    import { useNavigate } from "svelte-navigator";
     import ErrorResponse from "../components/ErrorResponse.svelte";
     import {
         IcnArrowLeft,
@@ -12,12 +12,12 @@
         IcnHome,
         IcnShare,
     } from "../components/Icons.svelte";
-    import { replace } from "svelte-spa-router";
     import ChapterItem from "../components/ChapterItem.svelte";
     import DrawerBox from "../components/DrawerBox.svelte";
     import ShareBox from "../components/ShareBox.svelte";
 
-    export let params;
+    export let slug;
+    export let chapter;
     let dataset;
     let loadedImages = 0;
     let loading = true;
@@ -33,8 +33,10 @@
         isShareBarOpen = true;
     }
 
+    const navigate = useNavigate();
+
     onMount(async () => {
-        call(params.chapter);
+        call(chapter, false);
     });
 
     onMount(() => {
@@ -57,11 +59,7 @@
             if (
                 inHistory &&
                 window.location.href ===
-                    window.location.origin +
-                        "/#/manga/" +
-                        params.slug +
-                        "/" +
-                        params.chapter
+                    window.location.origin + "/manga/" + slug + "/" + chapter
             ) {
                 inHistory.pageYOffset = currentScrollPos;
                 InHistories[
@@ -76,7 +74,7 @@
         () => {
             if (dataset) {
                 if (dataset.data.length === loadedImages) {
-                    if (inHistory.history.current_chapter === params.chapter) {
+                    if (inHistory.history.current_chapter === chapter) {
                         setTimeout(() => {
                             window.scrollTo(0, inHistory.pageYOffset);
                         }, 600);
@@ -91,10 +89,10 @@
         loading = true;
         window.scrollTo(0, 0);
         if (rplc) {
-            replace(`/manga/${params.slug}/${chapter}`);
+            navigate(`/manga/${slug}/${chapter}`);
         }
 
-        await fetch(`/api/manga/${params.slug}/${chapter}`)
+        await fetch(`/api/manga/${slug}/${chapter}`)
             .then((r) => r.json())
             .then((data) => {
                 if (data.status == "SUCCESS") {
@@ -106,7 +104,7 @@
                     histories = histories ? histories : [];
 
                     let exitingManga = histories.filter(
-                        (val) => val.slug === params.slug
+                        (val) => val.slug === slug
                     );
 
                     if (exitingManga.length > 0) {
@@ -124,12 +122,10 @@
 
                         if (
                             exitingManga.history.chapters.filter(
-                                (val) => val === params.chapter
+                                (val) => val === chapter
                             ).length === 0
                         ) {
-                            exitingManga.history.chapters.unshift(
-                                params.chapter
-                            );
+                            exitingManga.history.chapters.unshift(chapter);
                         }
 
                         histories.unshift(exitingManga);
@@ -186,13 +182,12 @@
                     <h2 class="text-center font-bold text-lg">Pilih Chapter</h2>
                     <div class="overflow-y-auto max-h-96">
                         <div class="grid grid-cols-5 xl:grid-cols-12 gap-3">
-                            {#each dataset.chapters as chapter}
-                                <div on:click={call(chapter)}>
+                            {#each dataset.chapters as item_chapter}
+                                <div on:click={call(item_chapter)}>
                                     <ChapterItem
-                                        isSelected={chapter === params.chapter}
-                                        {chapter}
-                                        slug={params.slug}
-                                        >{chapter}</ChapterItem
+                                        isSelected={item_chapter === chapter}
+                                        {item_chapter}
+                                        {slug}>{item_chapter}</ChapterItem
                                     >
                                 </div>
                             {/each}
@@ -200,11 +195,11 @@
                     </div>
                     <button
                         class="p-1 fill-current w-full flex items-center justify-center"
-                        on:click={() => push("/")}><IcnHome /></button
+                        on:click={() => navigate("/")}><IcnHome /></button
                     >
                     <button
                         class="text-center w-full"
-                        on:click={() => push("/manga/" + dataset.slug)}
+                        on:click={() => navigate("/manga/" + dataset.slug)}
                         >{dataset.title}</button
                     >
                     <button
@@ -259,7 +254,7 @@
                         on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
                         class="p-3 px-5 fill-current rounded-full"
                     >
-                        {params.chapter}
+                        {chapter}
                     </button>
                     {#if dataset.next}
                         <button
