@@ -10,9 +10,12 @@
         IcnArrowRight,
         IcnClose,
         IcnHome,
+        IcnShare,
     } from "../components/Icons.svelte";
     import { replace } from "svelte-spa-router";
     import ChapterItem from "../components/ChapterItem.svelte";
+    import DrawerBox from "../components/DrawerBox.svelte";
+    import ShareBox from "../components/ShareBox.svelte";
 
     export let params;
     let dataset;
@@ -21,8 +24,14 @@
     let error = null;
     let isChapterBarOpen = false;
     let inHistory = null;
+    let isShareBarOpen = false;
     let InHistories = [];
     var prevScrollpos = window.pageYOffset;
+
+    function shareNow() {
+        isChapterBarOpen = false;
+        isShareBarOpen = true;
+    }
 
     onMount(async () => {
         call(params.chapter);
@@ -161,35 +170,17 @@
 <Loading isLoading={loading} />
 
 {#if !loading}
+    <ShareBox
+        isOpen={isShareBarOpen}
+        onClose={() => (isShareBarOpen = false)}
+    />
     <Layout title="Read Manga" px="0" showNav={false}>
         {#if error != null}
             <ErrorResponse {error} />
         {:else}
-            <h1 class="text-3xl text-center px-3 font-bold">
-                {dataset.title}
-            </h1>
-            <section>
-                <div class="m-auto w-full">
-                    {#each dataset.data as url, i}
-                        <img
-                            on:load={() => (loadedImages = i + 1)}
-                            on:error={(e) => (e.target.src = url.backup_url)}
-                            class="w-full"
-                            src={url.main_url}
-                            alt={`${dataset.title}-image-${i + 1}`}
-                        />
-                    {/each}
-                </div>
-                <button
-                    on:click={() => window.scrollTo(0, 0)}
-                    class="p-3 w-full bg-gray-800 text-white fill-current"
-                    ><IcnArrowLeft class="transform rotate-90 m-auto" /></button
-                >
-            </section>
-            <nav
-                class={`fixed w-full xl:max-w-5xl ${
-                    isChapterBarOpen ? "bottom-0" : "-bottom-full"
-                } bg-gray-800 z-30 rounded-tr-xl rounded-tl-xl transition-all duration-300 ease-in-out`}
+            <DrawerBox
+                onClose={() => (isChapterBarOpen = false)}
+                isOpen={isChapterBarOpen}
             >
                 <div class="p-3 space-y-3">
                     <h2 class="text-center font-bold text-lg">Pilih Chapter</h2>
@@ -218,11 +209,36 @@
                     >
                     <button
                         class="p-1 fill-current w-full flex items-center justify-center"
+                        on:click={() => shareNow()}><IcnShare /></button
+                    >
+                    <button
+                        class="p-1 fill-current w-full flex items-center justify-center"
                         on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
                         ><IcnClose /></button
                     >
                 </div>
-            </nav>
+            </DrawerBox>
+            <h1 class="text-3xl text-center px-3 font-bold">
+                {dataset.title}
+            </h1>
+            <section>
+                <div class="m-auto w-full">
+                    {#each dataset.data as url, i}
+                        <img
+                            on:load={() => (loadedImages = i + 1)}
+                            on:error={(e) => (e.target.src = url.backup_url)}
+                            class="w-full"
+                            src={url.main_url}
+                            alt={`${dataset.title}-image-${i + 1}`}
+                        />
+                    {/each}
+                </div>
+                <button
+                    on:click={() => window.scrollTo(0, 0)}
+                    class="p-3 w-full bg-gray-800 text-white fill-current"
+                    ><IcnArrowLeft class="transform rotate-90 m-auto" /></button
+                >
+            </section>
 
             <nav
                 id="navbar"
