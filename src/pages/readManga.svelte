@@ -186,7 +186,7 @@
                                 <div on:click={call(item_chapter)}>
                                     <ChapterItem
                                         isSelected={item_chapter === chapter}
-                                        {item_chapter}
+                                        chapter={item_chapter}
                                         {slug}>{item_chapter}</ChapterItem
                                     >
                                 </div>
