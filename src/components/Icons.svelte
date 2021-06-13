@@ -7,6 +7,7 @@
     import Search from "./icons/search.svelte";
     import GitHub from "./icons/github.svelte";
     import Instagram from "./icons/instagram.svelte";
+    import Share from "./icons/share.svelte";
 
     export {
         Home as IcnHome,
@@ -17,5 +18,6 @@
         Search as IcnSearch,
         GitHub as IcnGitHub,
         Instagram as IcnInstagram,
+        Share as IcnShare,
     };
 </script>

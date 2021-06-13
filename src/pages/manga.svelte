@@ -1,11 +1,13 @@
 <script>
     import Layout from "../components/Layout.svelte";
     import ChapterItem from "../components/ChapterItem.svelte";
+    import { IcnShare } from "../components/Icons.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
     import { push } from "svelte-spa-router";
     import FavoriteButton from "../components/FavoriteButton.svelte";
     import ErrorResponse from "../components/ErrorResponse.svelte";
+    import ShareBox from "../components/ShareBox.svelte";
     import {
         isInFavorites,
         removeFromHistories,
@@ -21,6 +23,7 @@
     let isLoading = true;
     let isInFavorite = false;
     let isInHistory = false;
+    let isShareBarOpen = false;
 
     onMount(async () => {
         await fetch("/api/manga/" + params.slug)
@@ -111,6 +114,10 @@
                 </div>
             </div>
         {:else}
+            <ShareBox
+                isOpen={isShareBarOpen}
+                onClose={() => (isShareBarOpen = false)}
+            />
             <div class="block xl:flex">
                 <div class="relative xl:w-1/2 xl:top-0">
                     <div class="block xl:sticky top-0">
@@ -170,6 +177,13 @@
                                 <p>
                                     {dataset.sinopsis}
                                 </p>
+                                <button
+                                    on:click={() => (isShareBarOpen = true)}
+                                    class="w-full rounded-md flex items-center justify-center bg-gray-700 p-1"
+                                >
+                                    <IcnShare class="fill-current mr-1" />
+                                    Share</button
+                                >
                             </div>
                         </div>
                     </div>
