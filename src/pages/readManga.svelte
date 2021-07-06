@@ -42,7 +42,6 @@
     onMount(() => {
         window.addEventListener("scroll", function () {
             var currentScrollPos = window.pageYOffset;
-
             var nav = document.getElementById("navbar");
             if (nav) {
                 if (prevScrollpos > currentScrollPos) {
@@ -54,7 +53,6 @@
                 }
                 prevScrollpos = currentScrollPos;
             }
-
             //  update inHistory
             if (
                 inHistory &&
@@ -174,6 +172,19 @@
         {#if error != null}
             <ErrorResponse {error} />
         {:else}
+            <div
+                class={`fixed w-full text-gray-900 flex content-center items-center z-50 transition-all duration-300 ease-in-out ${
+                    loadedImages === dataset.data.length
+                        ? "opacity-0 -bottom-10"
+                        : "opacity-100 bottom-24"
+                }`}
+            >
+                <div
+                    class="m-auto px-5 py-2 bg-white rounded-full text-xs shadow-xl"
+                >
+                    Loaded: {loadedImages}/{dataset.data.length}
+                </div>
+            </div>
             <DrawerBox
                 onClose={() => (isChapterBarOpen = false)}
                 isOpen={isChapterBarOpen}
@@ -220,7 +231,7 @@
                 <div class="m-auto w-full">
                     {#each dataset.data as url, i}
                         <img
-                            on:load={() => (loadedImages = i + 1)}
+                            on:load={() => (loadedImages = loadedImages + 1)}
                             on:error={(e) => (e.target.src = url.backup_url)}
                             class="w-full"
                             src={url.main_url}
