@@ -85,6 +85,7 @@
 
     async function call(chapter, rplc = true) {
         loading = true;
+        loadedImages = 0;
         window.scrollTo(0, 0);
         if (rplc) {
             navigate(`/manga/${slug}/${chapter}`);
