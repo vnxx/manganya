@@ -129,8 +129,21 @@
                         </div>
                         <div class="px-3 -top-52 xl:w-3/4 relative shadow-lg">
                             <div class="flex mb-6 justify-between">
-                                <div class="block space-y-3">
+                                <div class="space-y-3  flex flex-col">
                                     {#if continueReading}
+                                        {#if continueReading.history.next_chapter}
+                                            <button
+                                                on:click={() =>
+                                                    navigate(
+                                                        `/manga/${slug}/${continueReading.history.next_chapter}`
+                                                    )}
+                                                class="p-2 px-4 bg-green-800 text-white rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                                            >
+                                                Pindah Ke: CH {continueReading
+                                                    .history.next_chapter}
+                                            </button>
+                                        {/if}
+
                                         <button
                                             on:click={() =>
                                                 navigate(
@@ -141,18 +154,6 @@
                                             Lanjut Baca: CH {continueReading
                                                 .history.current_chapter}
                                         </button>
-                                        {#if continueReading.history.next_chapter}
-                                            <button
-                                                on:click={() =>
-                                                    navigate(
-                                                        `/manga/${slug}/${continueReading.history.next_chapter}`
-                                                    )}
-                                                class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
-                                            >
-                                                Pindah Ke: CH {continueReading
-                                                    .history.next_chapter}
-                                            </button>
-                                        {/if}
                                     {/if}
                                 </div>
                                 <div class="flex mt-auto">

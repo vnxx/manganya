@@ -12,6 +12,8 @@
 
     const navigate = useNavigate();
 
+    window.scrollTo(0, 0);
+
     onMount(async () => {
         await fetch("/api")
             .then((r) => r.json())

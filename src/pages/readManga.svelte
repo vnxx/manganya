@@ -27,6 +27,7 @@
     let isShareBarOpen = false;
     let InHistories = [];
     var prevScrollpos = window.pageYOffset;
+    let updateYoffset = 0;
 
     function shareNow() {
         isChapterBarOpen = false;
@@ -74,7 +75,7 @@
                 if (dataset.data.length === loadedImages) {
                     if (inHistory.history.current_chapter === chapter) {
                         setTimeout(() => {
-                            window.scrollTo(0, inHistory.pageYOffset);
+                            window.scrollTo(0, updateYoffset);
                         }, 600);
                     }
                 }
@@ -87,6 +88,7 @@
         loading = true;
         loadedImages = 0;
         window.scrollTo(0, 0);
+        updateYoffset = 0;
         if (rplc) {
             navigate(`/manga/${slug}/${chapter}`);
         }
@@ -112,6 +114,11 @@
                             (val) => val.slug !== dataset.slug
                         );
                         exitingManga = exitingManga[0];
+
+                        //  update y offset if chapter same before update chapter
+                        if (exitingManga.history.current_chapter === chapter) {
+                            updateYoffset = exitingManga.pageYOffset;
+                        }
 
                         exitingManga.title = dataset.title;
                         exitingManga.cover = dataset.cover;
@@ -174,14 +181,14 @@
             <ErrorResponse {error} />
         {:else}
             <div
-                class={`fixed w-full text-gray-900 flex content-center items-center z-50 transition-all duration-300 ease-in-out ${
-                    loadedImages === dataset.data.length
-                        ? "opacity-0 -bottom-10"
-                        : "opacity-100 bottom-24"
-                }`}
+                class={`absolute justify-center w-full text-gray-900 flex content-center items-center z-50 transition-all duration-300 ease-in-out `}
             >
                 <div
-                    class="m-auto px-5 py-2 bg-white rounded-full text-xs shadow-xl"
+                    class={`m-auto fixed px-5 py-2 bg-white rounded-full text-xs shadow-xl ${
+                        loadedImages === dataset.data.length
+                            ? "opacity-0 -bottom-10"
+                            : "opacity-100 bottom-24"
+                    }`}
                 >
                     Loaded: {loadedImages}/{dataset.data.length}
                 </div>
