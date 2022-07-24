@@ -5,7 +5,7 @@ namespace api;
 class Route
 {
 
-    protected $path;
+    protected $path, $fullPath;
 
     public function __construct()
     {
@@ -14,10 +14,25 @@ class Route
 
     public function call($callback, $target, $params)
     {
+        $cahedTime = 600; // 10 minutes in seconds
+        $fileName = __DIR__ . '/../../.cache/' . 'cached-' . str_replace("/", "-", $this->fullPath) . '.json';
+
+        // check is chace exist
+        if (file_exists($fileName) && ((time() - $cahedTime) < filemtime($fileName))) {
+            $file = file_get_contents($fileName, true);
+            echo $file;
+            exit();
+        }
+
         $controller = new $callback;
         header('Content-Type: application/json');
         http_response_code(200);
-        echo json_encode($controller->$target(...$params));
+        $response = json_encode($controller->$target(...$params));
+
+        // create cache
+        file_put_contents($fileName, $response);
+
+        echo $response;
         exit();
     }
 
@@ -37,6 +52,7 @@ class Route
         }
 
         if ($current_path[0] == 'api' && $this->path == $path) {
+            $this->fullPath = implode("/", $current_path);
             $this->call($callback, $target, $params);
         }
 
@@ -56,6 +72,7 @@ class Route
             }
 
             if ($match > 0 && count($current_path) - count($params) == $match) {
+                $this->fullPath = implode("/", $current_path);
                 $this->call($callback, $target, $params);
             };
         }
