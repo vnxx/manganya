@@ -14,7 +14,7 @@ class Route
 
     public function call($callback, $target, $params)
     {
-        $cahedTime = 600; // 10 minutes in seconds
+        $cahedTime = 1800; // 30 minutes in seconds
         $fileName = __DIR__ . '/../../.cache/' . 'cached-' . str_replace("/", "-", $this->fullPath) . '.json';
 
         // check is chace exist
