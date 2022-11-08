@@ -17,11 +17,13 @@ class Route
         $cahedTime = 1800; // 30 minutes in seconds
         $fileName = __DIR__ . '/../../.cache/' . 'cached-' . str_replace("/", "-", $this->fullPath) . '.json';
 
-        // check is chace exist
-        if (file_exists($fileName) && ((time() - $cahedTime) < filemtime($fileName))) {
-            $file = file_get_contents($fileName, true);
-            echo $file;
-            exit();
+        if ($target != 'search') {
+            // check is chace exist
+            if (file_exists($fileName) && ((time() - $cahedTime) < filemtime($fileName))) {
+                $file = file_get_contents($fileName, true);
+                echo $file;
+                exit();
+            }
         }
 
         $controller = new $callback;
@@ -36,7 +38,7 @@ class Route
         exit();
     }
 
-    public function get($path = null, $callback, $target)
+    public function get($path, $callback, $target)
     {
         $path = $path == '/' ? '/api' : '/api' . $path;
         $params = [];
@@ -78,5 +80,11 @@ class Route
         }
 
         return null;
+    }
+
+    public function isCached($value)
+    {
+        $this->isCached = $value;
+        return $this;
     }
 }
