@@ -8,7 +8,7 @@
 	<div
 		style="z-index: 10;"
 		on:click={onClose}
-		class={`absolute w-full h-full top-0 bg-black transition-opacity ${
+		class={`fixed w-full h-full top-0 bg-black transition-opacity ${
 			isOpen
 				? "opacity-50 pointer-events-auto"
 				: "opacity-0 pointer-events-none"
