@@ -1,38 +1,47 @@
-# Mangaku
-Suka baca manga? sebal dengan iklan yang muncul terus-terusan? coba buka [manganya.bykevin.work](https://manganya.bykevin.work/) no iklan-iklan club.
+# Svelte + Vite
 
-## How to run it locally?
-1. `git clone https://github.com/vnxx/mangaku.git`.
-2. `cd mangaku`.
-3. `npm install`.
-4. `npm run dev` - If you want to update the UI.
-5. `php -S localhost:8000 -t public/`. Open localhost:8000 instead of localhost:5000 to get the API data, don't worry the hot reload feautre still works.
+This template should help get you started developing with Svelte in Vite.
 
-## How to contribute?
-Just like usual way, but before you make a pull request, make sure you have run `npm run build` to generate js and css file for production. Why? Normally build folder/file it is't included, in my case I can't run `npm run build` on my hosting provider (memory not enough). And don't forget to select dev branch as a target branch.
+## Recommended IDE Setup
 
-## Why do I build this?
-A couples days back, when I heard hataraku maou-sama will get next season (season 2), I rewatch the season 1, and I realise I can't wait for season 2 come up. Short story, because I can't wait for season 2 I decided to read the manga from chapter 20 until 82 and chapter 83 - 93 (english version). But it didn't answer the question why do I build this 🤪. Ok the answer is because when I read the manga I got so many ads pop up on my screen. Get it?
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
 
-## Why don't I read the legal manga instead?
-The answer is because I don't know where to go. this is the ironic thing about this industry (Movies, comics, etc). that it's easier to access the illegal stuff than the legal stuff. if you type on google "Hataraku Maou-sama chapter 82" or anything else when you see the result, what kind of sites you get? the legal or illegal? even though you can find the legal sites how about the <b>payment method?</b>
+## Need an official Svelte framework?
 
-I'm using Netflix I paid for it each month, I have access to the payment method (debit card), why do I use Netflix instead of the illegal sites? not because Netflix is a is legal site, but it's more like the benefit of using Netflix. if you ask me which one is easier to access I would answer Netflix and the features it's helpful. 
+Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
 
-There are three kinds of customers: price-oriented customer, value-oriented customer, and product-oriented consumer. maybe now I'm a value-oriented customer. if the value of the illegal site is more than the legal site, probably I would choose the illegal site because the legal site can't provide my needs.
+## Technical considerations
 
-I believe people who are using this site is a price-oriented customer or even a value-oriented customer.
+**Why use this over SvelteKit?**
 
-If you have recommendation legal sites you can dm me I would love to try. what are comics that I read? Hataraku-maou sama, and Solo leveling, just it.
+- It brings its own routing solution which might not be preferable for some users.
+- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
 
-## Why do I use PHP instead of NodeJs?
-Because my current plan on my hosting provider doesn't support NodeJs app. And the main reason is PHP is more cheaper.
+This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-## Why do I using SvelteJs instead of ReactJs?
-I just want to try Svelte, and this is the first time I'm using svelte. 🤔 Not bad.
+Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
-## Where I get the data?
-I got from bacakomik.co, I'm using scarping technique to get the data 👀.
+**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
 
-## Do I affiliate with bacakomik.co?
-No, I choose bacakomik.co because it's fast and the cors didn't block me. For bacakomik.co I recommend you to limit the cors or use cloudflare 👌🏻.
+Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+
+**Why include `.vscode/extensions.json`?**
+
+Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+
+**Why enable `checkJs` in the JS template?**
+
+It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
+
+**Why is HMR not preserving my local component state?**
+
+HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
+
+If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+
+```js
+// store.js
+// An extremely simple external store
+import { writable } from 'svelte/store'
+export default writable(0)
+```

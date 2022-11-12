@@ -1,8 +1,17 @@
 <script>
+    // @ts-nocheck
+
     import Layout from "../components/Layout.svelte";
     import { useNavigate } from "svelte-navigator";
     import ChapterItem from "../components/ChapterItem.svelte";
-    import { IcnShare } from "../components/Icons.svelte";
+    import {
+        IcnOutlineCalendar,
+        IcnOutlineClock,
+        IcnOutlineEye,
+        IcnOutlineLightBulp,
+        IcnOutlineRefresh,
+        IcnShare,
+    } from "../components/Icons.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
     import FavoriteButton from "../components/FavoriteButton.svelte";
@@ -13,9 +22,13 @@
         removeFromHistories,
         isInHistories,
         getHistories,
-    } from "../helper";
+    } from "../lib/helper";
     import MyButton from "../components/Button.svelte";
+    import Button from "../components/Button.svelte";
+    import InfoItem from "../components/Manga/InfoItem.svelte";
     export let slug;
+
+    const api_url = import.meta.env.VITE_API_URL;
 
     let dataset;
     let continueReading;
@@ -28,10 +41,11 @@
     const navigate = useNavigate();
 
     onMount(async () => {
-        await fetch("/api/manga/" + slug)
+        await fetch(`${api_url}/manga/${slug}`)
             .then((r) => r.json())
-            .then((data) => {
-                if (data.status == "SUCCESS") {
+            .then((response) => {
+                const data = response.data;
+                if (response.status == "SUCCESS") {
                     dataset = data;
                 } else {
                     error = data;
@@ -83,7 +97,7 @@
 {#if !isLoading}
     <Layout
         title="Manga Detail"
-        px="0"
+        px={0}
         slotClass="space-y-0"
         isLayeringHeader={error == null}
     >
@@ -105,6 +119,7 @@
                     {/if}
                     {#if isInHistory}
                         <MyButton
+                            type="defualt"
                             onclick={() => removeFH()}
                             class="w-max px-6 block m-auto"
                             >Hapus Manga Dari History</MyButton
@@ -113,84 +128,133 @@
                 </div>
             </div>
         {:else}
-            <ShareBox
-                isOpen={isShareBarOpen}
-                onClose={() => (isShareBarOpen = false)}
-            />
-            <div class="block xl:flex">
+            <div class="block xl:flex xl:pt-10">
                 <div class="relative xl:w-1/2 xl:top-0">
                     <div class="block xl:sticky top-0">
-                        <div class="bg-black opacity-40 w-full xl:w-3/4">
+                        <div
+                            class="bg-black opacity-40 w-full xl:w-3/4 overflow-hidden"
+                        >
                             <img
                                 src={dataset.cover}
                                 alt="Solo Leveling"
-                                class="w-full pr-0 h-full block  top-3"
+                                class="w-full pr-0 h-full block blur-sm top-3"
                             />
                         </div>
-                        <div class="px-3 -top-52 xl:w-3/4 relative shadow-lg">
-                            <div class="flex mb-6 justify-between">
-                                <div class="space-y-3  flex flex-col">
-                                    {#if continueReading}
+                        <div class="top-[-240px] xl:w-3/4 relative">
+                            <div
+                                class="space-y-6 bg-primary rounded-t-[30px] p-5 pb-12"
+                            >
+                                <div
+                                    class="flex w-full justify-between items-center flex-0"
+                                >
+                                    <img
+                                        src={dataset.type.image}
+                                        alt={dataset.type.name}
+                                        class="h-fit"
+                                    />
+
+                                    <div class="flex space-x-3">
+                                        <Button
+                                            onclick={() =>
+                                                (isShareBarOpen = true)}
+                                            size="sm"
+                                            theme="secondary"
+                                        >
+                                            <IcnShare
+                                                class="fill-current mr-2 w-4 h-4"
+                                            />
+                                            Bagikan
+                                        </Button>
+
+                                        <FavoriteButton
+                                            class=""
+                                            data={{
+                                                title: dataset.title,
+                                                slug: slug,
+                                                cover: dataset.cover,
+                                            }}
+                                            callback={() => {}}
+                                        />
+                                    </div>
+                                </div>
+                                <h1 class="text-2xl font-bold">
+                                    {dataset.title}
+                                </h1>
+                                <p class="leading-7 text-sm line-clamp-3">
+                                    {dataset.sinopsis}
+                                </p>
+
+                                {#if continueReading}
+                                    <div
+                                        class={`grid gap-3 ${
+                                            continueReading.history.next_chapter
+                                                ? "grid-cols-2"
+                                                : "grid-cols-1"
+                                        }`}
+                                    >
                                         {#if continueReading.history.next_chapter}
-                                            <button
-                                                on:click={() =>
+                                            <Button
+                                                class="text-[0.875rem]"
+                                                onclick={() =>
                                                     navigate(
                                                         `/manga/${slug}/${continueReading.history.next_chapter}`
                                                     )}
-                                                class="p-2 px-4 bg-green-800 text-white rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                                                theme="red"
+                                                size="lg"
                                             >
-                                                Pindah Ke: CH {continueReading
-                                                    .history.next_chapter}
-                                            </button>
+                                                <IcnOutlineLightBulp
+                                                    class="mr-2"
+                                                />
+                                                Baca Ch {continueReading.history
+                                                    .next_chapter}
+                                            </Button>
                                         {/if}
 
-                                        <button
-                                            on:click={() =>
+                                        <Button
+                                            class="text-[0.875rem]"
+                                            onclick={() =>
                                                 navigate(
                                                     `/manga/${slug}/${continueReading.history.current_chapter}`
                                                 )}
-                                            class="p-2 px-4 bg-white text-gray-800 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+                                            theme="secondary"
+                                            size="lg"
                                         >
-                                            Lanjut Baca: CH {continueReading
-                                                .history.current_chapter}
-                                        </button>
-                                    {/if}
-                                </div>
-                                <div class="flex mt-auto">
-                                    <FavoriteButton
-                                        data={{
-                                            title: dataset.title,
-                                            slug: slug,
-                                            cover: dataset.cover,
-                                        }}
-                                    />
-                                </div>
+                                            <IcnOutlineRefresh class="mr-2" />
+                                            Lanjut Ch {continueReading.history
+                                                .current_chapter}
+                                        </Button>
+                                    </div>
+                                {/if}
                             </div>
 
-                            <div class="space-y-3 bg-gray-800 rounded-lg p-5">
-                                <h1 class="text-xl font-bold">
-                                    {dataset.title}
-                                </h1>
-                                <hr
-                                    class="w-2/4 border-none h-0.5 bg-white rounded-full"
+                            <div
+                                class="flex px-5 bg-primary overflow-auto space-x-4"
+                            >
+                                <InfoItem
+                                    icon={IcnOutlineCalendar}
+                                    label="Rilis"
+                                    value={dataset.releaseYear}
                                 />
-                                <p>
-                                    {dataset.sinopsis}
-                                </p>
-                                <button
-                                    on:click={() => (isShareBarOpen = true)}
-                                    class="w-full rounded-md flex items-center justify-center bg-gray-700 p-1"
-                                >
-                                    <IcnShare class="fill-current mr-1" />
-                                    Share</button
-                                >
+
+                                <InfoItem
+                                    icon={IcnOutlineClock}
+                                    label="Status"
+                                    value={dataset.status}
+                                />
+
+                                <InfoItem
+                                    icon={IcnOutlineEye}
+                                    label="Dilihat"
+                                    value={dataset.views}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div
-                    class="px-3 w-full xl:w-1/2 xl:px-0 -mt-52 xl:mt-0 relative pt-8 xl:pt-0"
+                    class="px-5 w-full xl:w-1/2 xl:px-0 -mt-52 xl:mt-0 relative pt-8 xl:pt-0"
                 >
+                    <h2 class="mb-8 text-2xl font-bold">Chapters</h2>
                     <div class="grid grid-cols-5 xl:grid-cols-6 gap-3">
                         {#each dataset.chapters as chapter}
                             <ChapterItem {chapter} {slug}>{chapter}</ChapterItem
@@ -204,3 +268,5 @@
 {:else}
     <Loading />
 {/if}
+
+<ShareBox isOpen={isShareBarOpen} onClose={() => (isShareBarOpen = false)} />

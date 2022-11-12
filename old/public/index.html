@@ -6,7 +6,8 @@
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
 	<title>Manganya</title>
-	<meta name="description" content="Manganya meruapakan situs baca komik online Open Source tanpa iklan dan gratis.">
+	<meta name="description"
+		content="Manganya meruapakan situs baca komik online Open Source tanpa iklan dan gratis.">
 	<meta property="og:title" content="Manganya" />
 	<meta property="og:description"
 		content="Manganya meruapakan situs baca komik online Open Source tanpa iklan dan gratis.">
@@ -25,7 +26,10 @@
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGHVTN46GS"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag() { dataLayer.push(arguments); }
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
 		gtag('js', new Date());
 
 		gtag('config', 'G-ZGHVTN46GS', {
@@ -42,7 +46,7 @@
 <body class="bg-gray-900">
 	<script>
 		if ("serviceWorker" in navigator) {
-			window.addEventListener("load", function () {
+			window.addEventListener("load", function() {
 				navigator.serviceWorker
 					.register("/serviceWorker.js")
 					.then(res => console.log("service worker registered"))

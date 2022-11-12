@@ -1,5 +1,6 @@
 #Svelte
 /node_modules/
+/dist/
 
 #app
 .env
@@ -53,7 +54,7 @@ Temporary Items
 .apdisk
 
 ### VisualStudioCode ###
-.vscode/*
+.vscode
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace

@@ -1,8 +1,8 @@
 <script>
-    import Navigation from "../components/Navigation.svelte";
     import { Link } from "svelte-navigator";
+    import Navigation from "../components/Navigation.svelte";
 
-    export let px = 3;
+    export let px = 5;
     export let slotClass = null;
     export let isLayeringHeader = false;
     export let showNav = true;
@@ -35,7 +35,11 @@
     };
 </script>
 
-<div class={`max-w-5xl m-auto px-${px} relative text-white ${myClass}`}>
+<div
+    class={`max-w-5xl m-auto relativ text-white ${
+        isLayeringHeader ? "mb-0" : "mb-8"
+    }`}
+>
     <header
         class={isLayeringHeader
             ? "py-6 absolute xl:relative w-full top-0 z-10"
@@ -50,9 +54,11 @@
             </Link>
         </h1>
     </header>
-    {#if showNav}
-        <Navigation />
-    {/if}
+</div>
+{#if showNav}
+    <Navigation />
+{/if}
+<div class={`max-w-5xl pb-12 m-auto px-${px} relative text-white ${myClass}`}>
     <div class={`main-caontainer ${slotClass ? slotClass : "space-y-10"}`}>
         <slot />
     </div>

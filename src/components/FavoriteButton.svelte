@@ -2,7 +2,8 @@
     import { onMount } from "svelte";
 
     import { IcnPlus, IcnClose } from "../components/Icons.svelte";
-    import { isInFavorites, getFavorites } from "../helper";
+    import { isInFavorites, getFavorites } from "../lib/helper";
+    import Button from "./Button.svelte";
 
     let clazz;
     export let data;
@@ -48,20 +49,11 @@
     }
 </script>
 
-<button
-    class={clazz}
-    on:click={() => (isInFavorite ? removeFavorite() : addFavorite())}
+<Button
+    class={`fill-current ${clazz} `}
+    size="sm"
+    theme={isInFavorite ? "red" : "secondary"}
+    onclick={isInFavorite ? removeFavorite : addFavorite}
 >
-    <div
-        class={`shadow-md fill-current flex justify-center items-center p-2 w-auto rounded-full ${
-            isInFavorite ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-        } text-md px-4 font-bold transition-all duration-300 ease-in-out`}
-    >
-        {#if isInFavorite}
-            <IcnClose />
-        {:else}
-            <IcnPlus />
-        {/if}
-        <span class="pl-3">Favorite</span>
-    </div>
-</button>
+    <IcnPlus />
+</Button>

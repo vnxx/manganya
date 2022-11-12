@@ -5,17 +5,19 @@ namespace api;
 class Route
 {
 
-    protected $path, $fullPath;
+    protected $path, $fullPath, $pathParams;
 
     public function __construct()
     {
-        $this->path = (explode('?', $_SERVER['REQUEST_URI']))[0];
+        $splitPath = (explode('?', $_SERVER['REQUEST_URI']));
+        $this->path = $splitPath[0];
+        $this->pathParams = isset($splitPath[1]) ? '?' . $splitPath[1] : '';
     }
 
     public function call($callback, $target, $params)
     {
         $cahedTime = 1800; // 30 minutes in seconds
-        $fileName = __DIR__ . '/../../.cache/' . 'cached-' . str_replace("/", "-", $this->fullPath) . '.json';
+        $fileName = __DIR__ . '/../../.cache/' . 'cached-' . str_replace("/", "-", $this->fullPath) . $this->pathParams . '.json';
 
         // check is chace exist
         if (file_exists($fileName) && ((time() - $cahedTime) < filemtime($fileName))) {
@@ -36,7 +38,7 @@ class Route
         exit();
     }
 
-    public function get($path = null, $callback, $target)
+    public function get($path, $callback, $target)
     {
         $path = $path == '/' ? '/api' : '/api' . $path;
         $params = [];

@@ -1,4 +1,6 @@
 <script>
+    // @ts-nocheck
+
     import Layout from "../components/Layout.svelte";
     import { onMount } from "svelte";
     import Loading from "../components/Loading.svelte";
@@ -15,6 +17,8 @@
     import ChapterItem from "../components/ChapterItem.svelte";
     import DrawerBox from "../components/DrawerBox.svelte";
     import ShareBox from "../components/ShareBox.svelte";
+
+    const api_url = import.meta.env.VITE_API_URL;
 
     export let slug;
     export let chapter;
@@ -93,11 +97,11 @@
             navigate(`/manga/${slug}/${chapter}`);
         }
 
-        await fetch(`/api/manga/${slug}/${chapter}`)
+        await fetch(`${api_url}/manga/${slug}/${chapter}`)
             .then((r) => r.json())
             .then((data) => {
                 if (data.status == "SUCCESS") {
-                    dataset = data;
+                    dataset = data.data;
                     //  update hitory
                     let histories = JSON.parse(
                         localStorage.getItem("histories")
@@ -163,7 +167,7 @@
                     error = data;
                 }
 
-                dataset = data;
+                dataset = data.data;
                 loading = false;
             });
     }
@@ -181,7 +185,7 @@
             <ErrorResponse {error} />
         {:else}
             <div
-                class={`absolute justify-center w-full text-gray-900 flex content-center items-center z-50 transition-all duration-300 ease-in-out `}
+                class={`absolute justify-center w-full text-gray-900 flex content-center items-center z-10 transition-all duration-300 ease-in-out `}
             >
                 <div
                     class={`m-auto fixed px-5 py-2 bg-white rounded-full text-xs shadow-xl ${
@@ -193,45 +197,6 @@
                     Loaded: {loadedImages}/{dataset.data.length}
                 </div>
             </div>
-            <DrawerBox
-                onClose={() => (isChapterBarOpen = false)}
-                isOpen={isChapterBarOpen}
-            >
-                <div class="p-3 space-y-3">
-                    <h2 class="text-center font-bold text-lg">Pilih Chapter</h2>
-                    <div class="overflow-y-auto max-h-96">
-                        <div class="grid grid-cols-5 xl:grid-cols-12 gap-3">
-                            {#each dataset.chapters as item_chapter}
-                                <div on:click={call(item_chapter)}>
-                                    <ChapterItem
-                                        isSelected={item_chapter === chapter}
-                                        chapter={item_chapter}
-                                        {slug}>{item_chapter}</ChapterItem
-                                    >
-                                </div>
-                            {/each}
-                        </div>
-                    </div>
-                    <button
-                        class="p-1 fill-current w-full flex items-center justify-center"
-                        on:click={() => navigate("/")}><IcnHome /></button
-                    >
-                    <button
-                        class="text-center w-full"
-                        on:click={() => navigate("/manga/" + dataset.slug)}
-                        >{dataset.title}</button
-                    >
-                    <button
-                        class="p-1 fill-current w-full flex items-center justify-center"
-                        on:click={() => shareNow()}><IcnShare /></button
-                    >
-                    <button
-                        class="p-1 fill-current w-full flex items-center justify-center"
-                        on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
-                        ><IcnClose /></button
-                    >
-                </div>
-            </DrawerBox>
             <h1 class="text-3xl text-center px-3 font-bold">
                 {dataset.title}
             </h1>
@@ -256,14 +221,14 @@
 
             <nav
                 id="navbar"
-                class="fixed left-0 flex justify-center items-center bottom-4 w-full z-10 transition-all duration-300 ease-in-out"
+                class="fixed left-0 flex justify-center items-center bottom-4 w-full z-10 transition-all duration-300 ease-in-out text-white"
             >
                 <div
-                    class="flex justify-between w-1/2 xl:w-1/6 rounded-full bg-gray-800 shadow-md"
+                    class="flex justify-between w-[250px] p-3 rounded-full border border-secondary backdrop-blur-sm bg-primary/60 shadow-md px-4"
                 >
                     {#if dataset.prev}
                         <button
-                            class="p-3 px-5 fill-current rounded-full"
+                            class="fill-current rounded-full"
                             on:click={call(dataset.prev)}
                         >
                             <IcnArrowLeft />
@@ -271,14 +236,14 @@
                     {/if}
                     <button
                         on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
-                        class="p-3 px-5 fill-current rounded-full"
+                        class="fill-current rounded-full"
                     >
                         {chapter}
                     </button>
                     {#if dataset.next}
                         <button
                             on:click={call(dataset.next)}
-                            class="p-3 px-5 fill-current rounded-full"
+                            class="fill-current rounded-full"
                         >
                             <IcnArrowRight />
                         </button>
@@ -287,4 +252,45 @@
             </nav>
         {/if}
     </Layout>
+
+    <DrawerBox
+        onClose={() => (isChapterBarOpen = false)}
+        isOpen={isChapterBarOpen}
+    >
+        <div class="p-5 space-y-3 text-white">
+            <h2 class="text-center font-bold text-lg">Pilih Chapter</h2>
+            <div class="overflow-y-auto max-h-96">
+                <div class="grid grid-cols-5 xl:grid-cols-12 gap-3">
+                    {#each dataset.chapters as item_chapter}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <div on:click={call(item_chapter)}>
+                            <ChapterItem
+                                isSelected={item_chapter === chapter}
+                                chapter={item_chapter}
+                                {slug}>{item_chapter}</ChapterItem
+                            >
+                        </div>
+                    {/each}
+                </div>
+            </div>
+            <button
+                class="p-1 fill-current w-full flex items-center justify-center"
+                on:click={() => navigate("/")}><IcnHome /></button
+            >
+            <button
+                class="text-center w-full"
+                on:click={() => navigate("/manga/" + dataset.slug)}
+                >{dataset.title}</button
+            >
+            <button
+                class="p-1 fill-current w-full flex items-center justify-center"
+                on:click={() => shareNow()}><IcnShare /></button
+            >
+            <button
+                class="p-1 fill-current w-full flex items-center justify-center"
+                on:click={() => (isChapterBarOpen = !isChapterBarOpen)}
+                ><IcnClose /></button
+            >
+        </div>
+    </DrawerBox>
 {/if}
