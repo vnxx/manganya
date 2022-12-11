@@ -36,3 +36,13 @@ export function removeFromHistories(slug) {
 
     localStorage.setItem('histories', JSON.stringify(histories))
 }
+
+export function isScreenCounting() {
+    let counting = localStorage.getItem("isScreenCounting") ? localStorage.getItem("isScreenCounting") === "true" : true;
+    return counting;
+}
+
+export function getScreenCounter() {
+    let counter = localStorage.getItem("screenCounter") ? parseInt(localStorage.getItem("screenCounter")) : 0;
+    return counter;
+}

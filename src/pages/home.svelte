@@ -7,6 +7,7 @@
     import Layout from "../components/Layout.svelte";
     import MangaItem from "../components/MangaItem.svelte";
     import TypeItem from "../components/Home/TypeItem.svelte";
+    import ContributionBanner from "../components/Home/ContributionBanner.svelte";
 
     import { useEffect } from "../components/hook";
 
@@ -112,6 +113,8 @@
             </div>
         </section>
     {/if} -->
+
+    <ContributionBanner />
 
     {#if continueReading.length > 0}
         <section>

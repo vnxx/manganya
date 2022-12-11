@@ -6,6 +6,20 @@
   import Search from "../src/pages/search.svelte";
   import Favorite from "../src/pages/favorite.svelte";
   import InstallationGuide from "../src/pages/installationGuide.svelte";
+
+  import { getScreenCounter, isScreenCounting } from "./lib/helper";
+
+  if (isScreenCounting()) {
+    let screenCounter = getScreenCounter();
+    if (screenCounter === 0) {
+      localStorage.setItem(
+        "screenCounterInitAt",
+        new Date().getTime().toString()
+      );
+    }
+    screenCounter++;
+    localStorage.setItem("screenCounter", screenCounter.toString());
+  }
 </script>
 
 <main>
