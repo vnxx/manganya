@@ -43,18 +43,19 @@ class MangaController
     public function index()
     {
         $type = strtolower(isset($_GET['type']) ? $_GET['type'] : 'all');
+        $url = null;
         switch ($type) {
             case 'manhua':
-                $source = Http::get('https://bacakomik.co/manhua/');
+                $source = Http::get($url = 'https://bacakomik.co/manhua/');
                 break;
             case 'manhwa':
-                $source = Http::get('https://bacakomik.co/manhwa/');
+                $source = Http::get($url = 'https://bacakomik.co/manhwa/');
                 break;
             case 'manga':
-                $source = Http::get('https://bacakomik.co/daftar-manga/');
+                $source = Http::get($url = 'https://bacakomik.co/daftar-manga/');
                 break;
             default:
-                $source = Http::get('https://bacakomik.co/komik-terbaru');
+                $source = Http::get($url = 'https://bacakomik.co/komik-terbaru');
                 break;
         }
 
@@ -77,14 +78,16 @@ class MangaController
         return [
             'status' => 'SUCCESS',
             "data" => $data,
+            "source" => $url,
         ];
     }
 
     public function search()
     {
         $search = isset($_GET['search']) ?  $_GET['search'] : null;
+        $url = 'https://bacakomik.co/?s=' . str_replace(' ', '+', $search);
         if ($search) {
-            $source = Http::get('https://bacakomik.co/?s=' . str_replace(' ', '+', $search));
+            $source = Http::get($url);
 
             if (!$source->isSuccess()) {
                 return $source->showError();
@@ -95,12 +98,14 @@ class MangaController
             'status' => 'SUCCESS',
             'query' => $search,
             'data' => $search ? $this->_getMangaItems($source->response()) : [],
+            'source' => $url,
         ];
     }
 
     public function show($slug)
     {
-        $source = Http::get('https://bacakomik.co/komik/' . $slug . '/');
+        $url = 'https://bacakomik.co/komik/' . $slug . '/';
+        $source = Http::get($url);
 
         if (!$source->isSuccess()) {
             return $source->showError();
@@ -129,13 +134,15 @@ class MangaController
                 "status" => $status[1],
                 "releaseYear" => $releaseYear[1],
                 "views" => $views[1],
+                "source" => $url
             ]
         ];
     }
 
     public function showChapter($slug, $chapter)
     {
-        $source = Http::get('https://bacakomik.co/chapter/' . $slug . '-chapter-' . $chapter . '-bahasa-indonesia/');
+        $url = 'https://bacakomik.co/chapter/' . $slug . '-chapter-' . $chapter . '-bahasa-indonesia/';
+        $source = Http::get($url);
 
         if (!$source->isSuccess()) {
             return $source->showError();
@@ -176,6 +183,7 @@ class MangaController
                 'next' => count($next) > 0 ? $next[1] : null,
                 'prev' => count($prev) > 0 ? $prev[1] : null,
                 'data' => $images,
+                'source' => $url,
             ]
         ];
     }

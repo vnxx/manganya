@@ -26,6 +26,7 @@
     let loadedImages = 0;
     let loading = true;
     let error = null;
+    let isImageError = false;
     let isChapterBarOpen = false;
     let inHistory = null;
     let isShareBarOpen = false;
@@ -88,8 +89,27 @@
         () => [loadedImages]
     );
 
+    useEffect(
+        () => {
+            if (isImageError) {
+                isImageError = false;
+                // console.log(dataset.source);
+                let newwindow = window.open(
+                    dataset.source,
+                    "anyname",
+                    "height=200,width=150"
+                );
+                setTimeout(() => {
+                    newwindow.close();
+                }, 1000);
+            }
+        },
+        () => [isImageError]
+    );
+
     async function call(chapter, rplc = true) {
         loading = true;
+        isImageError = false;
         loadedImages = 0;
         window.scrollTo(0, 0);
         updateYoffset = 0;
@@ -205,9 +225,12 @@
                     {#each dataset.data as url, i}
                         <img
                             on:load={() => (loadedImages = loadedImages + 1)}
-                            on:error={(e) => (e.target.src = url.backup_url)}
+                            on:error={(e) => {
+                                e.target.src = url.backup_url;
+                                isImageError = true;
+                            }}
                             class="w-full"
-                            src={url.main_url}
+                            src={url.backup_url}
                             alt={`${dataset.title}-image-${i + 1}`}
                         />
                     {/each}
