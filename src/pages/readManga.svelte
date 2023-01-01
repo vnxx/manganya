@@ -12,6 +12,7 @@
         IcnArrowRight,
         IcnClose,
         IcnHome,
+        IcnOpenIn,
         IcnShare,
     } from "../components/Icons.svelte";
     import ChapterItem from "../components/ChapterItem.svelte";
@@ -37,6 +38,11 @@
     function shareNow() {
         isChapterBarOpen = false;
         isShareBarOpen = true;
+    }
+
+    function openInSource() {
+        window.open(dataset.source, "_blank");
+        navigate("/manga/" + dataset.slug);
     }
 
     const navigate = useNavigate();
@@ -308,6 +314,10 @@
             <button
                 class="p-1 fill-current w-full flex items-center justify-center"
                 on:click={() => shareNow()}><IcnShare /></button
+            >
+            <button
+                class="p-1 fill-current w-full flex items-center justify-center"
+                on:click={() => openInSource()}><IcnOpenIn /></button
             >
             <button
                 class="p-1 fill-current w-full flex items-center justify-center"

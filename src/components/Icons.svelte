@@ -13,6 +13,7 @@
     import OutlineCalendar from "./icons/outlineCalendar.svelte";
     import OutlineClock from "./icons/outlineClock.svelte";
     import OutlineEye from "./icons/outlineEye.svelte";
+    import OpenIn from "./icons/openIn.svelte";
 
     export {
         Home as IcnHome,
@@ -29,5 +30,6 @@
         OutlineCalendar as IcnOutlineCalendar,
         OutlineClock as IcnOutlineClock,
         OutlineEye as IcnOutlineEye,
+        OpenIn as IcnOpenIn,
     };
 </script>
