@@ -101,7 +101,7 @@
                 );
                 setTimeout(() => {
                     newwindow.close();
-                }, 1000);
+                }, 2500);
             }
         },
         () => [isImageError]
